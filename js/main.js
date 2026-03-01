@@ -187,19 +187,53 @@ document.addEventListener('DOMContentLoaded', () => {
       const avatar = localStorage.getItem('userAvatar') || '🦇';
 
       topActions.innerHTML = `
-        <div class="user-meta">
-          <span class="user-meta__name">${username}</span>
-          <div class="avatar avatar--sm">${avatar}</div>
-          <button id="logoutBtn" class="btn btn--small" title="Leave the Loom">🗝️ Logout</button>
+        <div class="user-meta" id="userSigil">
+          <div class="user-meta__sigil">${avatar}</div>
+          <div class="user-menu" id="userDropdown">
+            <div class="user-menu__header">
+              <div class="avatar avatar--md">${avatar}</div>
+              <div class="user-menu__info">
+                <div class="user-menu__name">${username}</div>
+                <div class="user-menu__role">Master Artisan</div>
+              </div>
+            </div>
+            <div class="user-menu__divider"></div>
+            <a href="profile.html" class="user-menu__link">👤 My Profile</a>
+            <button class="user-menu__link">⚙️ Settings</button>
+            <a href="marketplace.html" class="user-menu__link">🏪 My Listings</a>
+            <div class="user-menu__divider"></div>
+            <button id="logoutBtn" class="user-menu__link user-menu__link--logout">🗝️ Logout</button>
+          </div>
         </div>
       `;
 
-      document.getElementById('logoutBtn')?.addEventListener('click', () => {
+      const sigil = document.getElementById('userSigil');
+      const dropdown = document.getElementById('userDropdown');
+
+      sigil.addEventListener('click', (e) => {
+        e.stopPropagation();
+        dropdown.classList.toggle('open');
+      });
+
+      // Close dropdown when clicking outside
+      document.addEventListener('click', (e) => {
+        if (!sigil.contains(e.target)) {
+          dropdown.classList.remove('open');
+        }
+      });
+
+      document.getElementById('logoutBtn')?.addEventListener('click', (e) => {
+        e.stopPropagation();
         localStorage.removeItem('isLoggedIn');
         localStorage.removeItem('username');
         localStorage.removeItem('userEmail');
         localStorage.removeItem('userAvatar');
         window.location.reload();
+      });
+
+      // Settings dummy interaction
+      document.querySelector('.user-menu__link:nth-of-type(2)')?.addEventListener('click', () => {
+        alert('Settings module is currently being forged in the deeper halls...');
       });
     } else {
       // Don't show Sign In button if we're already on the auth page
