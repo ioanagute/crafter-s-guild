@@ -10,6 +10,13 @@
     <link rel="stylesheet" href="css/styles.css">
     <style>
         /* ── Auth page specific styles ── */
+        html,
+        body {
+            overflow: hidden;
+            width: 100%;
+            height: 100%;
+        }
+
         .auth-wrapper {
             display: flex;
             height: 100vh;
@@ -158,8 +165,9 @@
             display: flex;
             align-items: flex-start;
             justify-content: center;
-            padding: var(--space-lg) var(--space-2xl);
+            padding: var(--space-md) var(--space-xl);
             position: relative;
+            overflow-x: hidden;
             overflow-y: auto;
         }
 
@@ -176,7 +184,7 @@
         .auth-form-inner {
             width: 100%;
             max-width: 380px;
-            padding: var(--space-lg) 0;
+            padding: var(--space-sm) 0;
         }
 
         /* Tab switcher */
