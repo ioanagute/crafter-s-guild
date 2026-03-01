@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Browse craft categories on The Obsidian Loom — from leatherwork and candle making to embroidery and woodcarving.">
+    <title>Categories — The Obsidian Loom</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body>
+    <canvas id="particle-canvas"></canvas>
+    <div class="layout">
+
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar__brand">
+                <div class="sidebar__logo">
+                    The Obsidian<br>Loom
+                    <span>Est. MMXXIV</span>
+                </div>
+            </div>
+            <nav class="sidebar__nav">
+                <button class="sidebar__search-btn" id="search-btn">
+                    🔍 Search the Loom <span class="kbd">/</span>
+                </button>
+                <div class="sidebar__section-label">Navigate</div>
+                <a href="index.html" class="sidebar__link">
+                    <span class="sidebar__link-icon">🏛️</span> Home
+                </a>
+                <a href="categories.html" class="sidebar__link sidebar__link--active">
+                    <span class="sidebar__link-icon">📂</span> Categories
+                </a>
+                <a href="threads.html" class="sidebar__link">
+                    <span class="sidebar__link-icon">📜</span> Threads
+                </a>
+                <a href="thread.html" class="sidebar__link">
+                    <span class="sidebar__link-icon">💬</span> Discussion
+                </a>
+                <div class="sidebar__section-label">Discover</div>
+                <a href="marketplace.html" class="sidebar__link">
+                    <span class="sidebar__link-icon">🎪</span> Marketplace
+                </a>
+                <a href="events.html" class="sidebar__link">
+                    <span class="sidebar__link-icon">🎭</span> Events
+                </a>
+                <a href="profile.html" class="sidebar__link">
+                    <span class="sidebar__link-icon">👤</span> Profile
+                </a>
+            </nav>
+            <div class="sidebar__guild-clock" id="guild-clock">00:00:00</div>
+            <div class="sidebar__footer">
+                <p>⚒️ Forged in darkness</p>
+            </div>
+        </aside>
+
+        <button class="hamburger" id="hamburger" aria-label="Toggle navigation">☰</button>
+
+        <!-- Search Overlay -->
+        <div class="search-overlay" id="search-overlay">
+            <div class="search-box">
+                <div class="search-box__header">
+                    <span class="search-box__icon">🔍</span>
+                    <input type="text" id="search-input" placeholder="Search threads, categories, artisans…"
+                        autocomplete="off">
+                    <button id="search-close">✕</button>
+                </div>
+                <div id="search-results"></div>
+                <div class="search-box__footer">
+                    <span><span class="kbd">↵</span> to open</span>
+                    <span><span class="kbd">Esc</span> to close</span>
+                    <span><span class="kbd">/</span> to search</span>
+                </div>
+            </div>
+        </div>
+
+        <main class="main">
+            <div class="main__content">
+
+                <div class="breadcrumbs">
+                    <a href="index.html">Home</a>
+                    <span class="breadcrumbs__sep">›</span>
+                    <span class="text-gold">Categories</span>
+                </div>
+
+                <div class="page-title-bar">
+                    <div class="section-header">
+                        <h1 class="section-header__title">✦ Craft Guilds</h1>
+                        <p class="section-header__subtitle">Choose your guild and delve into the craft</p>
+                    </div>
+                </div>
+
+                <div class="categories-grid">
+
+                    <a href="threads.html" class="card category-card animate-fade-in-up">
+                        <span class="category-card__icon">🕯️</span>
+                        <h3 class="category-card__name">Candle Making</h3>
+                        <p class="category-card__desc">Black flames, carved pillars, scented shadows. Master the art of
+                            wax and wick.</p>
+                        <div class="category-card__stats">
+                            <span><span class="category-card__stat-value">142</span> threads</span>
+                            <span><span class="category-card__stat-value">1.2k</span> posts</span>
+                        </div>
+                    </a>
+
+                    <a href="threads.html" class="card category-card animate-fade-in-up">
+                        <span class="category-card__icon">🧵</span>
+                        <h3 class="category-card__name">Embroidery & Sewing</h3>
+                        <p class="category-card__desc">From mourning samplers to darkly elegant garments. Thread,
+                            needle, and patience.</p>
+                        <div class="category-card__stats">
+                            <span><span class="category-card__stat-value">218</span> threads</span>
+                            <span><span class="category-card__stat-value">2.4k</span> posts</span>
+                        </div>
+                    </a>
+
+                    <a href="threads.html" class="card category-card animate-fade-in-up">
+                        <span class="category-card__icon">🔨</span>
+                        <h3 class="category-card__name">Leatherwork</h3>
+                        <p class="category-card__desc">Tooled journals, belts, and armor. The scent of leather and the
+                            press of the stamp.</p>
+                        <div class="category-card__stats">
+                            <span><span class="category-card__stat-value">186</span> threads</span>
+                            <span><span class="category-card__stat-value">1.8k</span> posts</span>
+                        </div>
+                    </a>
+
+                    <a href="threads.html" class="card category-card animate-fade-in-up">
+                        <span class="category-card__icon">🪵</span>
+                        <h3 class="category-card__name">Woodcarving</h3>
+                        <p class="category-card__desc">Gargoyles, rune boxes, walking staves. Shape the grain into
+                            something haunting.</p>
+                        <div class="category-card__stats">
+                            <span><span class="category-card__stat-value">97</span> threads</span>
+                            <span><span class="category-card__stat-value">890</span> posts</span>
+                        </div>
+                    </a>
+
+                    <a href="threads.html" class="card category-card animate-fade-in-up">
+                        <span class="category-card__icon">💎</span>
+                        <h3 class="category-card__name">Jewelry & Metalwork</h3>
+                        <p class="category-card__desc">Silver serpents, obsidian pendants, wire-wrapped talismans. Forge
+                            your darkness in metal.</p>
+                        <div class="category-card__stats">
+                            <span><span class="category-card__stat-value">264</span> threads</span>
+                            <span><span class="category-card__stat-value">3.1k</span> posts</span>
+                        </div>
+                    </a>
+
+                    <a href="threads.html" class="card category-card animate-fade-in-up">
+                        <span class="category-card__icon">🧶</span>
+                        <h3 class="category-card__name">Knitting & Crochet</h3>
+                        <p class="category-card__desc">Skull motifs, black lace shawls, and hooded cloaks. Yarn twisted
+                            into dark elegance.</p>
+                        <div class="category-card__stats">
+                            <span><span class="category-card__stat-value">175</span> threads</span>
+                            <span><span class="category-card__stat-value">2.0k</span> posts</span>
+                        </div>
+                    </a>
+
+                    <a href="threads.html" class="card category-card animate-fade-in-up">
+                        <span class="category-card__icon">📚</span>
+                        <h3 class="category-card__name">Bookbinding</h3>
+                        <p class="category-card__desc">Grimoires, leather journals, and gilded pages. Bind your
+                            knowledge in proper form.</p>
+                        <div class="category-card__stats">
+                            <span><span class="category-card__stat-value">89</span> threads</span>
+                            <span><span class="category-card__stat-value">720</span> posts</span>
+                        </div>
+                    </a>
+
+                    <a href="threads.html" class="card category-card animate-fade-in-up">
+                        <span class="category-card__icon">🎨</span>
+                        <h3 class="category-card__name">Painting & Illustration</h3>
+                        <p class="category-card__desc">Dark oil paintings, tarot illustrations, and macabre portraits.
+                            Canvas and pigment.</p>
+                        <div class="category-card__stats">
+                            <span><span class="category-card__stat-value">156</span> threads</span>
+                            <span><span class="category-card__stat-value">1.5k</span> posts</span>
+                        </div>
+                    </a>
+
+                    <a href="threads.html" class="card category-card animate-fade-in-up">
+                        <span class="category-card__icon">🧪</span>
+                        <h3 class="category-card__name">Potions & Apothecary</h3>
+                        <p class="category-card__desc">Herbal salves, ink recipes, natural dyes. The craft of concoction
+                            and preservation.</p>
+                        <div class="category-card__stats">
+                            <span><span class="category-card__stat-value">68</span> threads</span>
+                            <span><span class="category-card__stat-value">540</span> posts</span>
+                        </div>
+                    </a>
+
+                    <a href="threads.html" class="card category-card animate-fade-in-up">
+                        <span class="category-card__icon">🏺</span>
+                        <h3 class="category-card__name">Pottery & Ceramics</h3>
+                        <p class="category-card__desc">Goblets, incense holders, and gargoyle figurines. Earth shaped by
+                            fire and intention.</p>
+                        <div class="category-card__stats">
+                            <span><span class="category-card__stat-value">73</span> threads</span>
+                            <span><span class="category-card__stat-value">610</span> posts</span>
+                        </div>
+                    </a>
+
+                    <a href="threads.html" class="card category-card animate-fade-in-up">
+                        <span class="category-card__icon">✂️</span>
+                        <h3 class="category-card__name">Paper Craft & Calligraphy</h3>
+                        <p class="category-card__desc">Gothic lettering, wax seals, and paper sculptures. The elegance
+                            of parchment.</p>
+                        <div class="category-card__stats">
+                            <span><span class="category-card__stat-value">54</span> threads</span>
+                            <span><span class="category-card__stat-value">430</span> posts</span>
+                        </div>
+                    </a>
+
+                    <a href="threads.html" class="card category-card animate-fade-in-up">
+                        <span class="category-card__icon">🗡️</span>
+                        <h3 class="category-card__name">Blacksmithing</h3>
+                        <p class="category-card__desc">Forged blades, iron candelabras, and wrought gates. The anvil
+                            sings at midnight.</p>
+                        <div class="category-card__stats">
+                            <span><span class="category-card__stat-value">112</span> threads</span>
+                            <span><span class="category-card__stat-value">1.3k</span> posts</span>
+                        </div>
+                    </a>
+
+                </div>
+
+            </div>
+        </main>
+        <button id="scroll-top-btn" title="Back to top">↑</button>
+        <script src="js/main.js"></script>
+        <script src="js/platform.js"></script>
+    </div>
+</body>
+
+</html>

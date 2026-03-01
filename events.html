@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Guild Events & Challenges — The Obsidian Loom. Monthly craft challenges, live workshops, member showcases and more gothic artisan events.">
+    <title>Events & Challenges — The Obsidian Loom</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body>
+    <canvas id="particle-canvas"></canvas>
+    <div class="layout">
+
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar__brand">
+                <div class="sidebar__logo">
+                    The Obsidian<br>Loom
+                    <span>Est. MMXXIV</span>
+                </div>
+            </div>
+            <nav class="sidebar__nav">
+                <button class="sidebar__search-btn" id="search-btn">
+                    🔍 Search the Loom <span class="kbd">/</span>
+                </button>
+                <div class="sidebar__section-label">Navigate</div>
+                <a href="index.html" class="sidebar__link">
+                    <span class="sidebar__link-icon">🏛️</span> Home
+                </a>
+                <a href="categories.html" class="sidebar__link">
+                    <span class="sidebar__link-icon">📂</span> Categories
+                </a>
+                <a href="threads.html" class="sidebar__link">
+                    <span class="sidebar__link-icon">📜</span> Threads
+                </a>
+                <a href="thread.html" class="sidebar__link">
+                    <span class="sidebar__link-icon">💬</span> Discussion
+                </a>
+                <div class="sidebar__section-label">Discover</div>
+                <a href="marketplace.html" class="sidebar__link">
+                    <span class="sidebar__link-icon">🏪</span> Marketplace
+                </a>
+                <a href="events.html" class="sidebar__link sidebar__link--active">
+                    <span class="sidebar__link-icon">🎭</span> Events
+                </a>
+                <a href="profile.html" class="sidebar__link">
+                    <span class="sidebar__link-icon">👤</span> Profile
+                </a>
+            </nav>
+            <div class="sidebar__guild-clock" id="guild-clock">00:00:00</div>
+            <div class="sidebar__footer">
+                <p>⚒️ Forged in darkness</p>
+            </div>
+        </aside>
+
+        <!-- Mobile hamburger -->
+        <button class="hamburger" id="hamburger" aria-label="Toggle navigation">☰</button>
+
+        <!-- Search Overlay -->
+        <div class="search-overlay" id="search-overlay">
+            <div class="search-box">
+                <div class="search-box__header">
+                    <span class="search-box__icon">🔍</span>
+                    <input type="text" id="search-input" placeholder="Search threads, categories, artisans…"
+                        autocomplete="off">
+                    <button id="search-close">✕</button>
+                </div>
+                <div id="search-results"></div>
+                <div class="search-box__footer">
+                    <span><span class="kbd">↵</span> to open</span>
+                    <span><span class="kbd">Esc</span> to close</span>
+                    <span><span class="kbd">/</span> to search</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <main class="main">
+            <div class="main__content">
+
+                <!-- Hero -->
+                <section class="hero observe-animate" style="margin-bottom:var(--space-2xl)">
+                    <img src="img/events-banner.png" alt="Guild Events" class="hero__image">
+                    <div class="hero__overlay"></div>
+                    <div class="hero__content">
+                        <h1 class="hero__title">🎭 Guild Events</h1>
+                        <p class="hero__subtitle">Monthly challenges, live workshops, member showcases & dark craft
+                            competitions. Rise through the guild ranks.</p>
+                    </div>
+                </section>
+
+                <!-- Upcoming Banner -->
+                <section class="observe-animate">
+                    <div class="card"
+                        style="background:linear-gradient(135deg,rgba(107,58,125,0.15),rgba(10,10,15,0.8));border-color:rgba(107,58,125,0.4);padding:var(--space-xl);margin-bottom:var(--space-xl);">
+                        <div style="display:flex;align-items:center;gap:var(--space-lg);flex-wrap:wrap;">
+                            <div style="font-size:3rem;">🏆</div>
+                            <div style="flex:1;">
+                                <div class="event-card__type event-card__type--challenge"
+                                    style="margin-bottom:var(--space-sm);">🏆 Monthly Challenge</div>
+                                <h2 style="font-size:1.3rem;color:var(--accent-gold);margin-bottom:var(--space-xs);">
+                                    March 2026: Gothic Spring Awakening</h2>
+                                <p style="margin:0;color:var(--text-secondary);font-size:0.95rem;">Create something that
+                                    captures the contradiction of spring through a gothic lens. Blooming thorns,
+                                    awakening ravens, thawing crypts — the theme is yours to interpret.</p>
+                            </div>
+                            <div style="text-align:center;">
+                                <div
+                                    style="font-family:var(--font-heading);font-size:0.7rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-muted);margin-bottom:var(--space-xs);">
+                                    Ends in</div>
+                                <div style="font-family:var(--font-heading);font-size:1.6rem;color:var(--accent-gold);"
+                                    id="countdown">29d 14h</div>
+                                <a href="#" class="btn btn--primary" style="margin-top:var(--space-sm);">✦ Enter Now</a>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Filter Tags -->
+                <div class="tags-cloud observe-animate" style="margin-bottom:var(--space-xl)">
+                    <a class="tag" href="#">All Events</a>
+                    <a class="tag tag--hot" href="#">🏆 Challenges</a>
+                    <a class="tag" href="#">🎓 Workshops</a>
+                    <a class="tag" href="#">📺 Livestreams</a>
+                    <a class="tag" href="#">🖼️ Showcases</a>
+                    <a class="tag" href="#">Past Events</a>
+                </div>
+
+                <!-- Events List -->
+                <section class="observe-animate">
+                    <div class="section-header">
+                        <h2 class="section-header__title">✦ Upcoming Events</h2>
+                        <p class="section-header__subtitle">Mark your calendar, artisan</p>
+                    </div>
+                    <div class="events-list">
+
+                        <div class="card event-card animate-fade-in-up">
+                            <div class="event-card__date">
+                                <span class="event-card__day">08</span>
+                                <span class="event-card__month">Mar</span>
+                            </div>
+                            <div class="event-card__body">
+                                <div class="event-card__type event-card__type--workshop">🎓 Workshop</div>
+                                <div class="event-card__title">Candle Alchemy: Black & Crimson Layering Techniques</div>
+                                <p class="event-card__meta">
+                                    <span>🕐 14:00 UTC</span>
+                                    <span>👥 48 attending</span>
+                                    <span>by NightWeaver</span>
+                                </p>
+                            </div>
+                            <a href="#" class="btn btn--small">RSVP</a>
+                        </div>
+
+                        <div class="card event-card animate-fade-in-up">
+                            <div class="event-card__date">
+                                <span class="event-card__day">12</span>
+                                <span class="event-card__month">Mar</span>
+                            </div>
+                            <div class="event-card__body">
+                                <div class="event-card__type event-card__type--livestream">📺 Livestream</div>
+                                <div class="event-card__title">Forging the Dark: Damascus Steel Q&A with IronHide</div>
+                                <p class="event-card__meta">
+                                    <span>🕐 18:00 UTC</span>
+                                    <span>👥 124 interested</span>
+                                    <span>by MidnightForge</span>
+                                </p>
+                            </div>
+                            <a href="#" class="btn btn--small">Notify Me</a>
+                        </div>
+
+                        <div class="card event-card animate-fade-in-up">
+                            <div class="event-card__date">
+                                <span class="event-card__day">15</span>
+                                <span class="event-card__month">Mar</span>
+                            </div>
+                            <div class="event-card__body">
+                                <div class="event-card__type event-card__type--challenge">🏆 Challenge</div>
+                                <div class="event-card__title">Miniature Gothic Architecture — Needle & Thread Edition
+                                </div>
+                                <p class="event-card__meta">
+                                    <span>🏁 Submissions close Mar 29</span>
+                                    <span>👥 67 entries so far</span>
+                                    <span>🥇 50 Gold prize</span>
+                                </p>
+                            </div>
+                            <a href="#" class="btn btn--small btn--primary">Enter</a>
+                        </div>
+
+                        <div class="card event-card animate-fade-in-up">
+                            <div class="event-card__date">
+                                <span class="event-card__day">20</span>
+                                <span class="event-card__month">Mar</span>
+                            </div>
+                            <div class="event-card__body">
+                                <div class="event-card__type event-card__type--showcase">🖼️ Showcase</div>
+                                <div class="event-card__title">Guild Spring Gallery — Member Creations Exhibition</div>
+                                <p class="event-card__meta">
+                                    <span>🕐 All Day</span>
+                                    <span>👥 Open to All Members</span>
+                                    <span>Submit by Mar 17</span>
+                                </p>
+                            </div>
+                            <a href="#" class="btn btn--small">Submit Work</a>
+                        </div>
+
+                        <div class="card event-card animate-fade-in-up">
+                            <div class="event-card__date">
+                                <span class="event-card__day">28</span>
+                                <span class="event-card__month">Mar</span>
+                            </div>
+                            <div class="event-card__body">
+                                <div class="event-card__type event-card__type--workshop">🎓 Workshop</div>
+                                <div class="event-card__title">Victorian Embroidery Masterclass: Mourning Motifs</div>
+                                <p class="event-card__meta">
+                                    <span>🕐 15:00 UTC</span>
+                                    <span>👥 32 attending</span>
+                                    <span>by VelvetStitch</span>
+                                </p>
+                            </div>
+                            <a href="#" class="btn btn--small">RSVP</a>
+                        </div>
+
+                        <div class="card event-card animate-fade-in-up">
+                            <div class="event-card__date">
+                                <span class="event-card__day">05</span>
+                                <span class="event-card__month">Apr</span>
+                            </div>
+                            <div class="event-card__body">
+                                <div class="event-card__type event-card__type--challenge">🏆 Challenge</div>
+                                <div class="event-card__title">April Monthly Challenge — Theme Reveal: Darkness & Light
+                                </div>
+                                <p class="event-card__meta">
+                                    <span>🔒 Submissions open Apr 5</span>
+                                    <span>👥 Accepting all skill levels</span>
+                                </p>
+                            </div>
+                            <a href="#" class="btn btn--small">Learn More</a>
+                        </div>
+
+                    </div>
+                </section>
+
+                <div class="divider"><span class="divider__icon">⚜️</span></div>
+
+                <!-- Past Winners -->
+                <section class="observe-animate">
+                    <div class="section-header">
+                        <h2 class="section-header__title">✦ Hall of Victors</h2>
+                        <p class="section-header__subtitle">Champions of past challenges</p>
+                    </div>
+                    <div class="spotlight-grid">
+                        <div class="card spotlight-card animate-fade-in-up">
+                            <div class="avatar avatar--lg" style="margin:0 auto var(--space-md);">
+                                <div
+                                    style="width:100%;height:100%;background:linear-gradient(135deg,#6b3a7d,#8b2a3a);display:flex;align-items:center;justify-content:center;font-size:2rem;">
+                                    🦇</div>
+                            </div>
+                            <span class="spotlight-card__name">NightWeaver</span>
+                            <span class="spotlight-card__craft-title">🥇 Feb Challenge Winner</span>
+                            <p class="spotlight-card__craft">"Gothic Valentines" — Best in Candle Craft</p>
+                        </div>
+                        <div class="card spotlight-card animate-fade-in-up">
+                            <div class="avatar avatar--lg" style="margin:0 auto var(--space-md);">
+                                <div
+                                    style="width:100%;height:100%;background:linear-gradient(135deg,#3a6b6b,#2a5a8b);display:flex;align-items:center;justify-content:center;font-size:2rem;">
+                                    🌙</div>
+                            </div>
+                            <span class="spotlight-card__name">VelvetStitch</span>
+                            <span class="spotlight-card__craft-title">🥇 Jan Challenge Winner</span>
+                            <p class="spotlight-card__craft">"Winter Mourning" — Best Embroidery</p>
+                        </div>
+                        <div class="card spotlight-card animate-fade-in-up">
+                            <div class="avatar avatar--lg" style="margin:0 auto var(--space-md);">
+                                <div
+                                    style="width:100%;height:100%;background:linear-gradient(135deg,#8b6a2a,#6b4a1a);display:flex;align-items:center;justify-content:center;font-size:2rem;">
+                                    ⚔️</div>
+                            </div>
+                            <span class="spotlight-card__name">IronHide</span>
+                            <span class="spotlight-card__craft-title">🥇 Dec Challenge Winner</span>
+                            <p class="spotlight-card__craft">"Solstice Steel" — Best Metalwork</p>
+                        </div>
+                        <div class="card spotlight-card animate-fade-in-up">
+                            <div class="avatar avatar--lg" style="margin:0 auto var(--space-md);">
+                                <div
+                                    style="width:100%;height:100%;background:linear-gradient(135deg,#2a3a6b,#1a2a5a);display:flex;align-items:center;justify-content:center;font-size:2rem;">
+                                    🔮</div>
+                            </div>
+                            <span class="spotlight-card__name">MidnightForge</span>
+                            <span class="spotlight-card__craft-title">🥇 Nov Challenge Winner</span>
+                            <p class="spotlight-card__craft">"All Saints' Iron" — Best Blacksmithing</p>
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+        </main>
+    </div>
+
+    <!-- Scroll to Top -->
+    <button id="scroll-top-btn" title="Back to top">↑</button>
+
+    <script src="js/main.js"></script>
+    <script src="js/platform.js"></script>
+</body>
+
+</html>

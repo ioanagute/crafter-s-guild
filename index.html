@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description"
+    content="The Obsidian Loom — A dark gothic community forum for crafters of all arts. Share techniques, find inspiration, and master your craft.">
+  <title>The Obsidian Loom — Gothic Crafters Forum</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body>
+  <canvas id="particle-canvas"></canvas>
+  <div class="layout">
+
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar__brand">
+        <div class="sidebar__logo">
+          The Obsidian<br>Loom
+          <span>Est. MMXXIV</span>
+        </div>
+      </div>
+      <nav class="sidebar__nav">
+        <button class="sidebar__search-btn" id="search-btn">
+          🔍 Search the Loom <span class="kbd">/</span>
+        </button>
+        <div class="sidebar__section-label">Navigate</div>
+        <a href="index.html" class="sidebar__link sidebar__link--active">
+          <span class="sidebar__link-icon">🏛️</span> Home
+        </a>
+        <a href="categories.html" class="sidebar__link">
+          <span class="sidebar__link-icon">📂</span> Categories
+        </a>
+        <a href="threads.html" class="sidebar__link">
+          <span class="sidebar__link-icon">📜</span> Threads
+        </a>
+        <a href="thread.html" class="sidebar__link">
+          <span class="sidebar__link-icon">💬</span> Discussion
+        </a>
+        <div class="sidebar__section-label">Discover</div>
+        <a href="marketplace.html" class="sidebar__link">
+          <span class="sidebar__link-icon">🏪</span> Marketplace
+        </a>
+        <a href="events.html" class="sidebar__link">
+          <span class="sidebar__link-icon">🎭</span> Events
+        </a>
+        <a href="profile.html" class="sidebar__link">
+          <span class="sidebar__link-icon">👤</span> Profile
+        </a>
+      </nav>
+      <div class="sidebar__guild-clock" id="guild-clock">00:00:00</div>
+      <div class="sidebar__footer">
+        <p>⚒️ Forged in darkness</p>
+      </div>
+    </aside>
+
+    <!-- Mobile hamburger -->
+    <button class="hamburger" id="hamburger" aria-label="Toggle navigation">☰</button>
+
+    <!-- Search Overlay -->
+    <div class="search-overlay" id="search-overlay">
+      <div class="search-box">
+        <div class="search-box__header">
+          <span class="search-box__icon">🔍</span>
+          <input type="text" id="search-input" placeholder="Search threads, categories, artisans…" autocomplete="off">
+          <button id="search-close">✕</button>
+        </div>
+        <div id="search-results"></div>
+        <div class="search-box__footer">
+          <span><span class="kbd">↵</span> to open</span>
+          <span><span class="kbd">Esc</span> to close</span>
+          <span><span class="kbd">/</span> to search anywhere</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="main">
+      <div class="main__content">
+
+        <!-- Hero Section -->
+        <section class="hero observe-animate">
+          <img src="img/hero-banner.png" alt="Gothic crafting workshop" class="hero__image">
+          <div class="hero__overlay"></div>
+          <div class="hero__content">
+            <h1 class="hero__title">The Obsidian Loom</h1>
+            <p class="hero__subtitle">Where shadow meets craft. A sanctuary for artisans who weave darkness into beauty
+              — share your creations, master ancient techniques, and find your kin.</p>
+            <div style="margin-top:var(--space-lg);display:flex;gap:var(--space-md);flex-wrap:wrap;">
+              <a href="auth.html" class="btn btn--primary">🗝️ Join the Guild</a>
+              <a href="threads.html" class="btn">📜 Browse Threads</a>
+            </div>
+          </div>
+        </section>
+
+        <!-- Trending Tags -->
+        <section class="observe-animate" style="margin-bottom:var(--space-2xl)">
+          <div class="tags-cloud">
+            <a class="tag tag--hot" href="threads.html">🔥 #GothicSpring2026</a>
+            <a class="tag" href="threads.html">#BlackFlame</a>
+            <a class="tag" href="threads.html">#VictorianMourning</a>
+            <a class="tag" href="threads.html">#DamascusSteel</a>
+            <a class="tag" href="threads.html">#SkullKnit</a>
+            <a class="tag" href="threads.html">#RavenFeather</a>
+            <a class="tag tag--hot" href="events.html">🏆 Monthly Challenge</a>
+            <a class="tag" href="marketplace.html">#NewListings</a>
+          </div>
+        </section>
+
+        <!-- Featured Threads -->
+        <section class="observe-animate">
+          <div class="section-header">
+            <h2 class="section-header__title">✦ Featured Threads</h2>
+            <p class="section-header__subtitle">Hand-picked discussions from across the guild</p>
+          </div>
+
+          <div class="featured-grid">
+            <a href="thread.html" class="card featured-card animate-fade-in-up">
+              <div class="featured-card__category">🕯️ Candle Making</div>
+              <h3 class="featured-card__title">Black Flame Techniques — Achieving the Perfect Gothic Candle</h3>
+              <p class="featured-card__excerpt">I've been experimenting with layered wax and activated charcoal to
+                create candles that burn with an almost otherworldly dark glow. Here's my step-by-step process...</p>
+              <div class="featured-card__footer">
+                <div class="featured-card__author">
+                  <div class="avatar avatar--sm">
+                    <div
+                      style="width:100%;height:100%;background:linear-gradient(135deg,#6b3a7d,#8b2a3a);display:flex;align-items:center;justify-content:center;font-size:0.8rem;">
+                      🦇</div>
+                  </div>
+                  <span class="featured-card__author-name">NightWeaver</span>
+                </div>
+                <span>💬 24 replies</span>
+              </div>
+            </a>
+
+            <a href="thread.html" class="card featured-card animate-fade-in-up">
+              <div class="featured-card__category">🧵 Embroidery</div>
+              <h3 class="featured-card__title">Victorian Mourning Embroidery — Patterns and Thread Guide</h3>
+              <p class="featured-card__excerpt">I've been collecting antique mourning samplers and recreating their
+                patterns with modern materials. The key is in the thread weight and color selection...</p>
+              <div class="featured-card__footer">
+                <div class="featured-card__author">
+                  <div class="avatar avatar--sm">
+                    <div
+                      style="width:100%;height:100%;background:linear-gradient(135deg,#3a6b6b,#2a5a8b);display:flex;align-items:center;justify-content:center;font-size:0.8rem;">
+                      🌙</div>
+                  </div>
+                  <span class="featured-card__author-name">VelvetStitch</span>
+                </div>
+                <span>💬 18 replies</span>
+              </div>
+            </a>
+
+            <a href="thread.html" class="card featured-card animate-fade-in-up">
+              <div class="featured-card__category">🔨 Leatherwork</div>
+              <h3 class="featured-card__title">Tooling a Gothic Cathedral Panel — WIP Journal</h3>
+              <p class="featured-card__excerpt">Currently working on a massive leather panel featuring a cathedral rose
+                window. The beveling on the stone textures is the most challenging part...</p>
+              <div class="featured-card__footer">
+                <div class="featured-card__author">
+                  <div class="avatar avatar--sm">
+                    <div
+                      style="width:100%;height:100%;background:linear-gradient(135deg,#8b6a2a,#6b4a1a);display:flex;align-items:center;justify-content:center;font-size:0.8rem;">
+                      ⚔️</div>
+                  </div>
+                  <span class="featured-card__author-name">IronHide</span>
+                </div>
+                <span>💬 31 replies</span>
+              </div>
+            </a>
+          </div>
+        </section>
+
+        <div class="divider"><span class="divider__icon">⚜️</span></div>
+
+        <!-- Upcoming Event Banner -->
+        <section class="observe-animate">
+          <a href="events.html" class="card"
+            style="display:block;background:linear-gradient(135deg,rgba(107,58,125,0.12),rgba(10,10,15,0.9));border-color:rgba(107,58,125,0.35);padding:var(--space-xl);text-decoration:none;">
+            <div style="display:flex;align-items:center;gap:var(--space-lg);flex-wrap:wrap;">
+              <span style="font-size:2.5rem;">🏆</span>
+              <div style="flex:1;">
+                <div
+                  style="font-family:var(--font-heading);font-size:0.65rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--accent-purple-bright);margin-bottom:var(--space-xs);">
+                  Live Now — Monthly Challenge</div>
+                <div style="font-family:var(--font-heading);font-size:1.2rem;color:var(--accent-gold);">March 2026:
+                  Gothic Spring Awakening</div>
+                <p style="margin:var(--space-xs) 0 0;font-size:0.88rem;color:var(--text-muted);">Submit your creation
+                  before March 29 · 67 entries · 50 Gold prize</p>
+              </div>
+              <span class="btn btn--primary">Enter Challenge →</span>
+            </div>
+          </a>
+        </section>
+
+        <div class="divider"><span class="divider__icon">⚜️</span></div>
+
+        <!-- Recent Activity -->
+        <section class="observe-animate">
+          <div class="section-header">
+            <h2 class="section-header__title">✦ Recent Activity</h2>
+            <p class="section-header__subtitle">The latest whispers from the guild halls</p>
+          </div>
+
+          <div class="card activity-list">
+            <div class="activity-item animate-fade-in-up">
+              <span class="activity-item__icon">💬</span>
+              <div>
+                <p class="activity-item__text">
+                  <strong>MidnightForge</strong> replied to <a href="thread.html">"Damascus Steel Letter Opener —
+                    Beginner's Guide"</a>
+                </p>
+                <span class="activity-item__time">2 minutes ago</span>
+              </div>
+            </div>
+            <div class="activity-item animate-fade-in-up">
+              <span class="activity-item__icon">📌</span>
+              <div>
+                <p class="activity-item__text">
+                  <strong>NightWeaver</strong> pinned <a href="thread.html">"Monthly Craft Challenge: Gothic
+                    Spring Awakening"</a>
+                </p>
+                <span class="activity-item__time">15 minutes ago</span>
+              </div>
+            </div>
+            <div class="activity-item animate-fade-in-up">
+              <span class="activity-item__icon">🏪</span>
+              <div>
+                <p class="activity-item__text">
+                  <strong>IronHide</strong> listed a new item in <a href="marketplace.html">the Dark Bazaar</a>:
+                  "Damascus Steel Letter Opener"
+                </p>
+                <span class="activity-item__time">22 minutes ago</span>
+              </div>
+            </div>
+            <div class="activity-item animate-fade-in-up">
+              <span class="activity-item__icon">🆕</span>
+              <div>
+                <p class="activity-item__text">
+                  <strong>GrimStitch</strong> created a new thread in <a href="threads.html">Knitting &amp; Crochet</a>:
+                  "Skull Motif Cable Knit Scarf"
+                </p>
+                <span class="activity-item__time">28 minutes ago</span>
+              </div>
+            </div>
+            <div class="activity-item animate-fade-in-up">
+              <span class="activity-item__icon">❤️</span>
+              <div>
+                <p class="activity-item__text">
+                  <strong>ShadowCraft</strong> liked <strong>VelvetStitch</strong>'s post in <a
+                    href="thread.html">"Raven Feather Quill Pen Tutorial"</a>
+                </p>
+                <span class="activity-item__time">42 minutes ago</span>
+              </div>
+            </div>
+            <div class="activity-item animate-fade-in-up">
+              <span class="activity-item__icon">🏆</span>
+              <div>
+                <p class="activity-item__text">
+                  <strong>IronHide</strong> earned the <span class="badge badge--gold">Master Artisan</span> badge
+                </p>
+                <span class="activity-item__time">1 hour ago</span>
+              </div>
+            </div>
+            <div class="activity-item animate-fade-in-up">
+              <span class="activity-item__icon">👋</span>
+              <div>
+                <p class="activity-item__text">
+                  <strong>OnyxNeedle</strong> joined The Obsidian Loom — welcome to the guild!
+                </p>
+                <span class="activity-item__time">2 hours ago</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <div class="divider"><span class="divider__icon">⚜️</span></div>
+
+        <!-- Guild Stats (Animated Counters) -->
+        <section class="observe-animate">
+          <div class="section-header">
+            <h2 class="section-header__title">✦ Guild Statistics</h2>
+            <p class="section-header__subtitle">The Obsidian Loom by the numbers — 2026</p>
+          </div>
+          <div class="profile-stats">
+            <div class="card profile-stat animate-fade-in-up">
+              <span class="profile-stat__value" data-count="1247">1,247</span>
+              <span class="profile-stat__label">Members</span>
+            </div>
+            <div class="card profile-stat animate-fade-in-up">
+              <span class="profile-stat__value" data-count="3891">3,891</span>
+              <span class="profile-stat__label">Threads</span>
+            </div>
+            <div class="card profile-stat animate-fade-in-up">
+              <span class="profile-stat__value" data-count="28456">28,456</span>
+              <span class="profile-stat__label">Posts</span>
+            </div>
+            <div class="card profile-stat animate-fade-in-up">
+              <span class="profile-stat__value" data-count="1204">1,204</span>
+              <span class="profile-stat__label">Marketplace</span>
+            </div>
+          </div>
+        </section>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- Scroll to Top -->
+  <button id="scroll-top-btn" title="Back to top">↑</button>
+
+  <script src="js/main.js"></script>
+  <script src="js/platform.js"></script>
+</body>
+
+</html>

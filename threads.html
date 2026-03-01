@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Browse threads in the Candle Making guild on The Obsidian Loom forum.">
+    <title>Candle Making Threads — The Obsidian Loom</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body>
+    <canvas id="particle-canvas"></canvas>
+    <div class="layout">
+
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar__brand">
+                <div class="sidebar__logo">The Obsidian<br>Loom<span>Est. MMXXIV</span></div>
+            </div>
+            <nav class="sidebar__nav">
+                <button class="sidebar__search-btn" id="search-btn">🔍 Search the Loom <span
+                        class="kbd">/</span></button>
+                <div class="sidebar__section-label">Navigate</div>
+                <a href="index.html" class="sidebar__link"><span class="sidebar__link-icon">🏛️</span> Home</a>
+                <a href="categories.html" class="sidebar__link"><span class="sidebar__link-icon">📂</span>
+                    Categories</a>
+                <a href="threads.html" class="sidebar__link sidebar__link--active"><span
+                        class="sidebar__link-icon">📜</span> Threads</a>
+                <a href="thread.html" class="sidebar__link"><span class="sidebar__link-icon">💬</span> Discussion</a>
+                <div class="sidebar__section-label">Discover</div>
+                <a href="marketplace.html" class="sidebar__link"><span class="sidebar__link-icon">🎪</span>
+                    Marketplace</a>
+                <a href="events.html" class="sidebar__link"><span class="sidebar__link-icon">🎭</span> Events</a>
+                <a href="profile.html" class="sidebar__link"><span class="sidebar__link-icon">👤</span> Profile</a>
+            </nav>
+            <div class="sidebar__guild-clock" id="guild-clock">00:00:00</div>
+            <div class="sidebar__footer">
+                <p>⚒️ Forged in darkness</p>
+            </div>
+        </aside>
+
+        <button class="hamburger" id="hamburger" aria-label="Toggle navigation">☰</button>
+
+        <div class="search-overlay" id="search-overlay">
+            <div class="search-box">
+                <div class="search-box__header">
+                    <span class="search-box__icon">🔍</span>
+                    <input type="text" id="search-input" placeholder="Search threads, categories, artisans…"
+                        autocomplete="off">
+                    <button id="search-close">✕</button>
+                </div>
+                <div id="search-results"></div>
+                <div class="search-box__footer">
+                    <span><span class="kbd">↵</span> to open</span>
+                    <span><span class="kbd">Esc</span> to close</span>
+                    <span><span class="kbd">/</span> to search</span>
+                </div>
+            </div>
+        </div>
+
+        <main class="main">
+            <div class="main__content">
+
+                <div class="breadcrumbs">
+                    <a href="index.html">Home</a>
+                    <span class="breadcrumbs__sep">›</span>
+                    <a href="categories.html">Categories</a>
+                    <span class="breadcrumbs__sep">›</span>
+                    <span class="text-gold">🕯️ Candle Making</span>
+                </div>
+
+                <div class="page-title-bar">
+                    <div class="section-header">
+                        <h1 class="section-header__title">🕯️ Candle Making</h1>
+                        <p class="section-header__subtitle">142 threads · 1,247 posts · 89 members</p>
+                    </div>
+                    <button class="btn btn--primary" id="newThreadBtn">✦ New Thread</button>
+                </div>
+
+                <div class="thread-list">
+
+                    <!-- Pinned thread -->
+                    <a href="thread.html" class="card thread-item animate-fade-in-up">
+                        <span class="thread-item__pin">📌</span>
+                        <div class="thread-item__body">
+                            <h3 class="thread-item__title">Guild Rules & Welcome — Read Before Posting</h3>
+                            <div class="thread-item__meta">
+                                <span>by <strong>NightWeaver</strong></span>
+                                <span class="badge badge--gold">Pinned</span>
+                                <span class="badge badge--purple">Admin</span>
+                            </div>
+                        </div>
+                        <div class="thread-item__stats">
+                            <span>💬 12</span>
+                            <span>👁️ 892</span>
+                        </div>
+                        <div class="thread-item__activity">
+                            <span class="user">NightWeaver</span><br>
+                            3 days ago
+                        </div>
+                    </a>
+
+                    <!-- Pinned thread 2 -->
+                    <a href="thread.html" class="card thread-item animate-fade-in-up">
+                        <span class="thread-item__pin">📌</span>
+                        <div class="thread-item__body">
+                            <h3 class="thread-item__title">Monthly Challenge: February — "Eternal Flame" Candle Design
+                            </h3>
+                            <div class="thread-item__meta">
+                                <span>by <strong>NightWeaver</strong></span>
+                                <span class="badge badge--gold">Pinned</span>
+                                <span class="badge badge--teal">Challenge</span>
+                            </div>
+                        </div>
+                        <div class="thread-item__stats">
+                            <span>💬 47</span>
+                            <span>👁️ 2.1k</span>
+                        </div>
+                        <div class="thread-item__activity">
+                            <span class="user">ShadowCraft</span><br>
+                            1 hour ago
+                        </div>
+                    </a>
+
+                    <div class="divider"><span class="divider__icon">⚜️</span></div>
+
+                    <!-- Regular threads -->
+                    <a href="thread.html" class="card thread-item animate-fade-in-up">
+                        <span class="thread-item__pin" style="visibility:hidden">📌</span>
+                        <div class="thread-item__body">
+                            <h3 class="thread-item__title">Black Flame Techniques — Achieving the Perfect Gothic Candle
+                            </h3>
+                            <div class="thread-item__meta">
+                                <span>by <strong>NightWeaver</strong></span>
+                                <span>in Techniques</span>
+                                <span class="badge badge--red">🔥 Hot</span>
+                            </div>
+                        </div>
+                        <div class="thread-item__stats">
+                            <span>💬 24</span>
+                            <span>👁️ 1.4k</span>
+                        </div>
+                        <div class="thread-item__activity">
+                            <span class="user">GrimStitch</span><br>
+                            12 min ago
+                        </div>
+                    </a>
+
+                    <a href="thread.html" class="card thread-item animate-fade-in-up">
+                        <span class="thread-item__pin" style="visibility:hidden">📌</span>
+                        <div class="thread-item__body">
+                            <h3 class="thread-item__title">Best Essential Oils for a "Crypt at Midnight" Scent Profile?
+                            </h3>
+                            <div class="thread-item__meta">
+                                <span>by <strong>OnyxNeedle</strong></span>
+                                <span>in Scents & Fragrance</span>
+                            </div>
+                        </div>
+                        <div class="thread-item__stats">
+                            <span>💬 16</span>
+                            <span>👁️ 680</span>
+                        </div>
+                        <div class="thread-item__activity">
+                            <span class="user">MidnightForge</span><br>
+                            45 min ago
+                        </div>
+                    </a>
+
+                    <a href="thread.html" class="card thread-item animate-fade-in-up">
+                        <span class="thread-item__pin" style="visibility:hidden">📌</span>
+                        <div class="thread-item__body">
+                            <h3 class="thread-item__title">Skull-Shaped Mold Recommendations — Silicone vs. Metal</h3>
+                            <div class="thread-item__meta">
+                                <span>by <strong>MidnightForge</strong></span>
+                                <span>in Tools & Materials</span>
+                            </div>
+                        </div>
+                        <div class="thread-item__stats">
+                            <span>💬 8</span>
+                            <span>👁️ 340</span>
+                        </div>
+                        <div class="thread-item__activity">
+                            <span class="user">VelvetStitch</span><br>
+                            2 hours ago
+                        </div>
+                    </a>
+
+                    <a href="thread.html" class="card thread-item animate-fade-in-up">
+                        <span class="thread-item__pin" style="visibility:hidden">📌</span>
+                        <div class="thread-item__body">
+                            <h3 class="thread-item__title">My First Gothic Candelabra Set — Feedback Welcome</h3>
+                            <div class="thread-item__meta">
+                                <span>by <strong>CrimsonThread</strong></span>
+                                <span>in Show & Tell</span>
+                                <span class="badge badge--teal">🆕 New</span>
+                            </div>
+                        </div>
+                        <div class="thread-item__stats">
+                            <span>💬 3</span>
+                            <span>👁️ 120</span>
+                        </div>
+                        <div class="thread-item__activity">
+                            <span class="user">IronHide</span><br>
+                            4 hours ago
+                        </div>
+                    </a>
+
+                    <a href="thread.html" class="card thread-item animate-fade-in-up">
+                        <span class="thread-item__pin" style="visibility:hidden">📌</span>
+                        <div class="thread-item__body">
+                            <h3 class="thread-item__title">Layered Color Technique — Creating Blood Drip Effects</h3>
+                            <div class="thread-item__meta">
+                                <span>by <strong>ShadowCraft</strong></span>
+                                <span>in Techniques</span>
+                            </div>
+                        </div>
+                        <div class="thread-item__stats">
+                            <span>💬 19</span>
+                            <span>👁️ 920</span>
+                        </div>
+                        <div class="thread-item__activity">
+                            <span class="user">OnyxNeedle</span><br>
+                            6 hours ago
+                        </div>
+                    </a>
+
+                    <a href="thread.html" class="card thread-item animate-fade-in-up">
+                        <span class="thread-item__pin" style="visibility:hidden">📌</span>
+                        <div class="thread-item__body">
+                            <h3 class="thread-item__title">Where to Source Black Beeswax in the EU?</h3>
+                            <div class="thread-item__meta">
+                                <span>by <strong>GrimStitch</strong></span>
+                                <span>in Sourcing</span>
+                            </div>
+                        </div>
+                        <div class="thread-item__stats">
+                            <span>💬 11</span>
+                            <span>👁️ 450</span>
+                        </div>
+                        <div class="thread-item__activity">
+                            <span class="user">NightWeaver</span><br>
+                            1 day ago
+                        </div>
+                    </a>
+
+                    <a href="thread.html" class="card thread-item animate-fade-in-up">
+                        <span class="thread-item__pin" style="visibility:hidden">📌</span>
+                        <div class="thread-item__body">
+                            <h3 class="thread-item__title">Safety PSA: Proper Wick Sizing for Deep Container Candles
+                            </h3>
+                            <div class="thread-item__meta">
+                                <span>by <strong>VelvetStitch</strong></span>
+                                <span>in Safety</span>
+                                <span class="badge badge--red">⚠️ Important</span>
+                            </div>
+                        </div>
+                        <div class="thread-item__stats">
+                            <span>💬 28</span>
+                            <span>👁️ 1.8k</span>
+                        </div>
+                        <div class="thread-item__activity">
+                            <span class="user">CrimsonThread</span><br>
+                            2 days ago
+                        </div>
+                    </a>
+
+                </div>
+
+                <!-- Pagination -->
+                <div class="pagination">
+                    <span class="pagination__link pagination__link--active">1</span>
+                    <a href="#" class="pagination__link">2</a>
+                    <a href="#" class="pagination__link">3</a>
+                    <a href="#" class="pagination__link">4</a>
+                    <a href="#" class="pagination__link">›</a>
+                </div>
+
+            </div>
+        </main>
+        <button id="scroll-top-btn" title="Back to top">↑</button>
+        <script src="js/main.js"></script>
+        <script src="js/platform.js"></script>
+    </div>
+</body>
+
+</html>
