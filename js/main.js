@@ -166,61 +166,36 @@ document.addEventListener('DOMContentLoaded', () => {
     );
     signInLinks.forEach(link => link.remove());
 
-    // 2. Manage Top-Right Logout/Sign-In Actions
-    const mainContent = document.querySelector('.main__content');
-    if (!mainContent) return;
+    // 2. Manage Top-Bar Logout/Sign-In Actions
+    const layout = document.querySelector('.layout');
+    if (!layout) return;
 
-    // Create container if it doesn't exist
-    let topActions = document.querySelector('.top-actions');
-    if (!topActions) {
-      topActions = document.createElement('div');
-      topActions.className = 'top-actions';
-
-      // Ensure main content is relative if we want to absolute position it
-      if (mainContent) mainContent.style.position = 'relative';
-
-      mainContent.prepend(topActions);
+    // Create user bar if it doesn't exist
+    let userBar = document.querySelector('.user-bar');
+    if (!userBar) {
+      userBar = document.createElement('div');
+      userBar.className = 'user-bar';
+      layout.prepend(userBar);
     }
 
     if (isLoggedIn) {
       const username = localStorage.getItem('username') || localStorage.getItem('userEmail')?.split('@')[0] || 'Artisan';
       const avatar = localStorage.getItem('userAvatar') || '🦇';
 
-      topActions.innerHTML = `
-        <div class="user-meta" id="userSigil">
-          <div class="user-meta__sigil">${avatar}</div>
-          <div class="user-menu" id="userDropdown">
-            <div class="user-menu__header">
-              <div class="avatar avatar--md">${avatar}</div>
-              <div class="user-menu__info">
-                <div class="user-menu__name">${username}</div>
-                <div class="user-menu__role">Master Artisan</div>
-              </div>
-            </div>
-            <div class="user-menu__divider"></div>
-            <a href="profile.html" class="user-menu__link">👤 My Profile</a>
-            <button class="user-menu__link">⚙️ Settings</button>
-            <a href="marketplace.html" class="user-menu__link">🏪 My Listings</a>
-            <div class="user-menu__divider"></div>
-            <button id="logoutBtn" class="user-menu__link user-menu__link--logout">🗝️ Logout</button>
+      userBar.innerHTML = `
+        <div class="user-bar__content">
+          <div class="user-bar__tabs">
+            <a href="profile.html" class="user-bar__tab">👤 Profile</a>
+            <button class="user-bar__tab" id="settingsTab">⚙️ Settings</button>
+            <a href="marketplace.html" class="user-bar__tab">🏪 Listings</a>
+            <button id="logoutBtn" class="user-bar__tab user-bar__tab--logout">🗝️ Logout</button>
+          </div>
+          <div class="user-bar__user">
+            <span class="user-bar__username">${username}</span>
+            <div class="avatar avatar--sm">${avatar}</div>
           </div>
         </div>
       `;
-
-      const sigil = document.getElementById('userSigil');
-      const dropdown = document.getElementById('userDropdown');
-
-      sigil.addEventListener('click', (e) => {
-        e.stopPropagation();
-        dropdown.classList.toggle('open');
-      });
-
-      // Close dropdown when clicking outside
-      document.addEventListener('click', (e) => {
-        if (!sigil.contains(e.target)) {
-          dropdown.classList.remove('open');
-        }
-      });
 
       document.getElementById('logoutBtn')?.addEventListener('click', (e) => {
         e.stopPropagation();
@@ -231,23 +206,46 @@ document.addEventListener('DOMContentLoaded', () => {
         window.location.reload();
       });
 
-      // Settings dummy interaction
-      document.querySelector('.user-menu__link:nth-of-type(2)')?.addEventListener('click', () => {
+      document.getElementById('settingsTab')?.addEventListener('click', () => {
         alert('Settings module is currently being forged in the deeper halls...');
       });
     } else {
       // Don't show Sign In button if we're already on the auth page
-      if (window.location.pathname.includes('auth.html')) {
-        topActions.innerHTML = '';
+      if (!window.location.pathname.includes('auth.html')) {
+        userBar.innerHTML = `
+          <div class="user-bar__content">
+            <a href="auth.html" class="btn btn--primary">
+              <span class="sidebar__link-icon">🗝️</span> Sign In
+            </a>
+          </div>
+        `;
+      } else {
+        userBar.style.display = 'none';
+      }
+    }
+
+    // ── User Bar Scroll Logic ──
+    let lastScroll = 0;
+    const hideThreshold = 50;
+
+    window.addEventListener('scroll', () => {
+      const currentScroll = window.pageYOffset;
+
+      if (currentScroll <= 0) {
+        userBar.classList.remove('user-bar--hidden');
         return;
       }
 
-      topActions.innerHTML = `
-        <a href="auth.html" class="btn btn--primary">
-          <span class="sidebar__link-icon">🗝️</span> Sign In
-        </a>
-      `;
-    }
+      if (Math.abs(currentScroll - lastScroll) < 10) return;
+
+      if (currentScroll > lastScroll && currentScroll > hideThreshold) {
+        userBar.classList.add('user-bar--hidden');
+      } else {
+        userBar.classList.remove('user-bar--hidden');
+      }
+
+      lastScroll = currentScroll;
+    });
   }
 
   initAuthUI();
