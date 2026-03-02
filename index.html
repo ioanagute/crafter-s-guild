@@ -11,68 +11,10 @@
 </head>
 
 <body>
-  <canvas id="particle-canvas"></canvas>
   <div class="layout">
 
-    <!-- Sidebar Navigation -->
-    <aside class="sidebar" id="sidebar">
-      <div class="sidebar__brand">
-        <div class="sidebar__logo">
-          The Obsidian<br>Loom
-          <span>Est. MMXXIV</span>
-        </div>
-      </div>
-      <nav class="sidebar__nav">
-        <button class="sidebar__search-btn" id="search-btn">
-          🔍 Search the Loom <span class="kbd">/</span>
-        </button>
-        <div class="sidebar__section-label">Navigate</div>
-        <a href="index.html" class="sidebar__link sidebar__link--active">
-          <span class="sidebar__link-icon">🏛️</span> Home
-        </a>
-        <a href="categories.html" class="sidebar__link">
-          <span class="sidebar__link-icon">📂</span> Categories
-        </a>
-        <a href="threads.html" class="sidebar__link">
-          <span class="sidebar__link-icon">📜</span> Threads
-        </a>
-
-        <div class="sidebar__section-label">Discover</div>
-        <a href="marketplace.html" class="sidebar__link">
-          <span class="sidebar__link-icon">🏪</span> Marketplace
-        </a>
-        <a href="events.html" class="sidebar__link">
-          <span class="sidebar__link-icon">🎭</span> Events
-        </a>
-        <a href="profile.html" class="sidebar__link">
-          <span class="sidebar__link-icon">👤</span> Profile
-        </a>
-      </nav>
-      <div class="sidebar__guild-clock" id="guild-clock">00:00:00</div>
-      <div class="sidebar__footer">
-        <p>⚒️ Forged in darkness</p>
-      </div>
-    </aside>
-
-    <!-- Mobile hamburger -->
-    <button class="hamburger" id="hamburger" aria-label="Toggle navigation">☰</button>
-
-    <!-- Search Overlay -->
-    <div class="search-overlay" id="search-overlay">
-      <div class="search-box">
-        <div class="search-box__header">
-          <span class="search-box__icon">🔍</span>
-          <input type="text" id="search-input" placeholder="Search threads, categories, artisans…" autocomplete="off">
-          <button id="search-close">✕</button>
-        </div>
-        <div id="search-results"></div>
-        <div class="search-box__footer">
-          <span><span class="kbd">↵</span> to open</span>
-          <span><span class="kbd">Esc</span> to close</span>
-          <span><span class="kbd">/</span> to search anywhere</span>
-        </div>
-      </div>
-    </div>
+    <forum-sidebar active="home"></forum-sidebar>
+    <forum-search-overlay></forum-search-overlay>
 
     <!-- Main Content -->
     <main class="main">
@@ -304,11 +246,10 @@
 
       </div>
     </main>
+    <forum-scroll-top></forum-scroll-top>
   </div>
 
-  <!-- Scroll to Top -->
-  <button id="scroll-top-btn" title="Back to top">↑</button>
-
+  <script src="js/components.js"></script>
   <script src="js/main.js"></script>
   <script src="js/platform.js"></script>
 </body>
