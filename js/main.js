@@ -249,4 +249,26 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   initAuthUI();
+
+  // ── Profile Tabs Logic ──
+  const profileTabs = document.querySelectorAll('.profile-tab');
+  const tabContents = document.querySelectorAll('.tab-content');
+
+  if (profileTabs.length > 0 && tabContents.length > 0) {
+    profileTabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        // Remove active class from all tabs and contents
+        profileTabs.forEach(t => t.classList.remove('active'));
+        tabContents.forEach(c => c.classList.remove('active'));
+
+        // Add active class to clicked tab and corresponding content
+        tab.classList.add('active');
+        const tabId = tab.getAttribute('data-tab');
+        const targetContent = document.getElementById(`tab-${tabId}`);
+        if (targetContent) {
+          targetContent.classList.add('active');
+        }
+      });
+    });
+  }
 });
