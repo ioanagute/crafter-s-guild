@@ -406,4 +406,109 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
   }
+
+  // ── Commission Modal Logic ──
+  const commissionModal = document.getElementById('commissionModal');
+  const openCommissionBtn = document.getElementById('openCommissionBtn');
+  const closeCommissionBtn = document.getElementById('closeCommissionBtn');
+  const commissionForm = document.getElementById('commissionForm');
+  const commissionSuccess = document.getElementById('commissionSuccess');
+  const successOkBtn = document.getElementById('successOkBtn');
+
+  if (commissionModal && openCommissionBtn) {
+    const openModal = () => {
+      commissionModal.classList.add('gallery-modal--active');
+      commissionForm.style.display = 'flex';
+      commissionSuccess.style.display = 'none';
+      document.body.style.overflow = 'hidden';
+    };
+
+    const closeModal = () => {
+      commissionModal.classList.remove('gallery-modal--active');
+      document.body.style.overflow = 'auto';
+    };
+
+    openCommissionBtn.addEventListener('click', openModal);
+
+    if (closeCommissionBtn) {
+      closeCommissionBtn.addEventListener('click', closeModal);
+    }
+
+    commissionModal.addEventListener('click', (e) => {
+      if (e.target === commissionModal) {
+        closeModal();
+      }
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && commissionModal.classList.contains('gallery-modal--active')) {
+        closeModal();
+      }
+    });
+
+    // ── Character Counter ──
+    const projectDesc = document.getElementById('projectDesc');
+    const charCount = document.getElementById('charCount');
+    if (projectDesc && charCount) {
+      projectDesc.addEventListener('input', () => {
+        const len = projectDesc.value.length;
+        charCount.textContent = len;
+        charCount.style.color = len > 550 ? 'rgba(220,80,80,0.9)' : '';
+      });
+    }
+
+    // ── Dynamic Price Estimate ──
+    const tierPrices = {
+      base: '20–50 ⚜',
+      standard: '60–150 ⚜',
+      master: '200+ ⚜'
+    };
+    const timelineMultipliers = {
+      flexible: '',
+      standard: '',
+      expedited: ' (+25% fee)'
+    };
+    const estimateValue = document.getElementById('estimateValue');
+
+    const updateEstimate = () => {
+      if (!estimateValue) return;
+      const selectedTier = commissionForm.querySelector('input[name="tier"]:checked');
+      const selectedTimeline = commissionForm.querySelector('input[name="timeline"]:checked');
+      const tierKey = selectedTier ? selectedTier.value : 'standard';
+      const timelineKey = selectedTimeline ? selectedTimeline.value : 'flexible';
+      estimateValue.textContent = tierPrices[tierKey] + timelineMultipliers[timelineKey];
+    };
+
+    commissionForm.querySelectorAll('input[name="tier"], input[name="timeline"]').forEach(input => {
+      input.addEventListener('change', updateEstimate);
+    });
+
+    updateEstimate(); // set initial state
+
+    // Mock Submission
+    if (commissionForm) {
+      commissionForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        const submitBtn = commissionForm.querySelector('button[type="submit"]');
+        const submitSpan = submitBtn.querySelector('span') || submitBtn;
+        const originalText = submitSpan.textContent;
+        submitSpan.textContent = '🌑 Summoning Raven...';
+        submitBtn.style.opacity = '0.7';
+        submitBtn.disabled = true;
+
+        setTimeout(() => {
+          commissionForm.style.display = 'none';
+          commissionSuccess.style.display = 'flex';
+          submitSpan.textContent = originalText;
+          submitBtn.style.opacity = '1';
+          submitBtn.disabled = false;
+        }, 1500);
+      });
+    }
+
+    if (successOkBtn) {
+      successOkBtn.addEventListener('click', closeModal);
+    }
+  }
 });

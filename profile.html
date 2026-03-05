@@ -275,7 +275,8 @@
                                     <p>Accepting custom orders for personalized grimoires, unique leatherwork, and
                                         bespoke
                                         candle sets. Discuss your vision with me.</p>
-                                    <a href="#" class="btn btn--primary">Request Custom Order</a>
+                                    <button class="btn btn--primary" id="openCommissionBtn">Request Custom
+                                        Order</button>
                                 </div>
                             </div>
 
@@ -348,6 +349,173 @@
                 </div>
             </div>
         </div>
+
+        <!-- Commission Modal -->
+        <div id="commissionModal" class="gallery-modal commission-modal">
+            <span class="modal-close" id="closeCommissionBtn">&times;</span>
+            <div class="commission-modal__inner">
+
+                <!-- Left Info Panel -->
+                <div class="commission-info-panel">
+                    <div class="commission-info-panel__avatar">🕷️</div>
+                    <h3 class="commission-info-panel__name">NightWeaver</h3>
+                    <p class="commission-info-panel__tagline">Artisan of shadow & craft</p>
+                    <div class="commission-info-panel__divider"></div>
+                    <ul class="commission-benefits">
+                        <li><span class="benefit-icon">✦</span> Handcrafted to your exact vision</li>
+                        <li><span class="benefit-icon">✦</span> Premium gothic materials only</li>
+                        <li><span class="benefit-icon">✦</span> Progress updates throughout</li>
+                        <li><span class="benefit-icon">✦</span> Satisfaction guaranteed</li>
+                    </ul>
+                    <div class="commission-info-panel__badge">
+                        <span>⚜</span> Commissions Open
+                    </div>
+                </div>
+
+                <!-- Right Form Panel -->
+                <div class="commission-form-panel">
+                    <div class="commission-form-header">
+                        <h2>✦ Request a Custom Commission</h2>
+                        <p>Fill in the details below and your request will be reviewed personally.</p>
+                    </div>
+
+                    <!-- Step Indicator -->
+                    <div class="form-steps">
+                        <div class="form-step form-step--active" data-step="1">
+                            <span class="form-step__num">1</span>
+                            <span class="form-step__label">Category</span>
+                        </div>
+                        <div class="form-step__connector"></div>
+                        <div class="form-step form-step--active" data-step="2">
+                            <span class="form-step__num">2</span>
+                            <span class="form-step__label">Details</span>
+                        </div>
+                        <div class="form-step__connector"></div>
+                        <div class="form-step" data-step="3">
+                            <span class="form-step__num">3</span>
+                            <span class="form-step__label">Submit</span>
+                        </div>
+                    </div>
+
+                    <form id="commissionForm" class="commission-form">
+
+                        <!-- Step 1: Category -->
+                        <div class="form-group">
+                            <label for="projectType">Project Category</label>
+                            <div class="form-select-wrapper">
+                                <select id="projectType" name="projectType" required>
+                                    <option value="" disabled selected>Select a specialty...</option>
+                                    <option value="candles">🕯️ Gothic Candle Set</option>
+                                    <option value="leatherwork">🔨 Tooled Leatherwork</option>
+                                    <option value="bookbinding">📚 Bespoke Grimoire</option>
+                                    <option value="apothecary">🧪 Alchemy &amp; Ink</option>
+                                    <option value="other">⚜️ Other Custom Craft</option>
+                                </select>
+                                <span class="form-select-arrow">▾</span>
+                            </div>
+                        </div>
+
+                        <!-- Step 2: Description -->
+                        <div class="form-group">
+                            <label for="projectDesc">Describe Your Vision</label>
+                            <textarea id="projectDesc" name="projectDesc"
+                                placeholder="Describe your vision — specific motifs, symbols, materials, dimensions, color preferences..."
+                                required maxlength="600"></textarea>
+                            <div class="form-hint">
+                                <span id="charCount">0</span> / 600 characters
+                            </div>
+                        </div>
+
+                        <!-- Pricing Tier -->
+                        <div class="form-group">
+                            <label>Pricing Tier</label>
+                            <div class="tier-options">
+                                <label class="tier-card tier-card--base">
+                                    <input type="radio" name="tier" value="base">
+                                    <div class="tier-card__box">
+                                        <span class="tier-card__icon">🌙</span>
+                                        <span class="tier-card__name">Apprentice</span>
+                                        <span class="tier-card__price">20–50 ⚜</span>
+                                        <span class="tier-card__desc">Essential materials,<br>clean execution</span>
+                                    </div>
+                                </label>
+                                <label class="tier-card tier-card--standard">
+                                    <input type="radio" name="tier" value="standard" checked>
+                                    <div class="tier-card__box">
+                                        <span class="tier-card__icon">⚜</span>
+                                        <span class="tier-card__name">Journeyman</span>
+                                        <span class="tier-card__price">60–150 ⚜</span>
+                                        <span class="tier-card__desc">Intricate detailing,<br>premium materials</span>
+                                    </div>
+                                </label>
+                                <label class="tier-card tier-card--master">
+                                    <input type="radio" name="tier" value="master">
+                                    <div class="tier-card__box">
+                                        <span class="tier-card__icon">🔮</span>
+                                        <span class="tier-card__name">Masterwork</span>
+                                        <span class="tier-card__price">200+ ⚜</span>
+                                        <span class="tier-card__desc">Rare artifacts,<br>museum-grade craft</span>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Timeline Cards -->
+                        <div class="form-group">
+                            <label>Desired Timeline</label>
+                            <div class="timeline-options">
+                                <label class="timeline-card">
+                                    <input type="radio" name="timeline" value="flexible" checked>
+                                    <div class="timeline-card__box">
+                                        <span class="timeline-card__icon">🌙</span>
+                                        <span class="timeline-card__label">Flexible</span>
+                                        <span class="timeline-card__sub">Whenever the stars align</span>
+                                    </div>
+                                </label>
+                                <label class="timeline-card">
+                                    <input type="radio" name="timeline" value="standard">
+                                    <div class="timeline-card__box">
+                                        <span class="timeline-card__icon">📅</span>
+                                        <span class="timeline-card__label">Standard</span>
+                                        <span class="timeline-card__sub">4–6 weeks</span>
+                                    </div>
+                                </label>
+                                <label class="timeline-card">
+                                    <input type="radio" name="timeline" value="expedited">
+                                    <div class="timeline-card__box">
+                                        <span class="timeline-card__icon">⚡</span>
+                                        <span class="timeline-card__label">Expedited</span>
+                                        <span class="timeline-card__sub">1–2 weeks <em>+25% fee</em></span>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Dynamic Estimate -->
+                        <div class="form-estimate" id="priceEstimate">
+                            ✦ Estimated range: <strong id="estimateValue">60–150 ⚜</strong>
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn--gold btn--large" id="commissionSubmitBtn">
+                                <span>🦅 Send Request via Raven</span>
+                            </button>
+                        </div>
+                    </form>
+
+                    <!-- Success Screen -->
+                    <div id="commissionSuccess" class="commission-success" style="display:none;">
+                        <div class="commission-success__icon">🦅</div>
+                        <h2>Request Sent!</h2>
+                        <p>The raven has taken flight. NightWeaver will review your request and contact you shortly via
+                            guild messages.</p>
+                        <button class="btn btn--primary" id="successOkBtn">Understood ✦</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
         <script src="js/components.js"></script>
         <script src="js/main.js"></script>
         <script src="js/platform.js"></script>
