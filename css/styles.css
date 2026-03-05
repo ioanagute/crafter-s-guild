@@ -760,11 +760,24 @@ p {
 }
 
 /* ── Profile Page ── */
+.profile-banner {
+    height: 220px;
+    border-radius: var(--radius-lg);
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    z-index: 0;
+}
+
 .profile-header {
     display: flex;
     gap: var(--space-2xl);
     align-items: center;
     padding: var(--space-xl);
+    margin-top: -60px;
+    /* Sleek overlap */
+    z-index: 1;
+    position: relative;
 }
 
 .profile-header__info {
@@ -789,7 +802,27 @@ p {
 .profile-header__bio {
     color: var(--text-secondary);
     font-size: 1rem;
+    margin-bottom: var(--space-md);
+}
+
+.profile-socials {
+    display: flex;
+    gap: var(--space-xl);
     margin-bottom: var(--space-lg);
+}
+
+.social-link {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    font-family: var(--font-heading);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    transition: all var(--transition-fast);
+}
+
+.social-link:hover {
+    color: var(--accent-gold);
+    text-shadow: var(--glow-gold);
 }
 
 .profile-header__badges {
