@@ -4,6 +4,7 @@ import Sidebar from "@/components/Sidebar";
 import UserBar from "@/components/UserBar";
 import ParticleCanvas from "@/components/ParticleCanvas";
 import SearchOverlay from "@/components/SearchOverlay";
+import ScrollObserver from "@/components/ScrollObserver";
 import { AuthProvider } from "@/context/AuthContext";
 
 export const metadata: Metadata = {
@@ -20,6 +21,7 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <AuthProvider>
+          <ScrollObserver />
           <div className="layout">
             <Sidebar />
             <UserBar />
