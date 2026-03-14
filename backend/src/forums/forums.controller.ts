@@ -1,6 +1,12 @@
-import { Controller, Get, Post, Body, Param, UseGuards, Request } from '@nestjs/common';
+import { Body, Controller, Get, Param, ParseIntPipe, Post, Query, Request, UseGuards } from '@nestjs/common';
 import { ForumsService } from './forums.service';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { Roles } from '../auth/roles.decorator';
+import { RolesGuard } from '../auth/roles.guard';
+import { CreateCategoryDto } from './dto/create-category.dto';
+import { CreatePostDto } from './dto/create-post.dto';
+import { CreateThreadDto } from './dto/create-thread.dto';
+import { GetThreadsQueryDto } from './dto/get-threads-query.dto';
 
 @Controller('forums')
 export class ForumsController {
@@ -16,39 +22,45 @@ export class ForumsController {
         return this.forumsService.getLatestThreads(3);
     }
 
-    @UseGuards(JwtAuthGuard)
+    @Get('threads')
+    getThreads(@Query() query: GetThreadsQueryDto) {
+        return this.forumsService.getThreads(query.categoryId);
+    }
+
+    @UseGuards(JwtAuthGuard, RolesGuard)
+    @Roles('ADMIN')
     @Post('categories')
-    createCategory(@Body() body: any) {
+    createCategory(@Body() body: CreateCategoryDto) {
         return this.forumsService.createCategory(body);
     }
 
     @Get('categories/:id/threads')
-    getThreadsByCategory(@Param('id') id: string) {
-        return this.forumsService.getThreadsByCategory(+id);
+    getThreadsByCategory(@Param('id', ParseIntPipe) id: number) {
+        return this.forumsService.getThreadsByCategory(id);
     }
 
     @UseGuards(JwtAuthGuard)
     @Post('threads')
-    createThread(@Request() req: any, @Body() body: any) {
+    createThread(@Request() req: any, @Body() body: CreateThreadDto) {
         return this.forumsService.createThread({
             title: body.title,
             content: body.content,
-            categoryId: +body.categoryId,
+            categoryId: body.categoryId,
             authorId: req.user.userId
         });
     }
 
     @Get('threads/:id')
-    getThread(@Param('id') id: string) {
-        return this.forumsService.getThread(+id);
+    getThread(@Param('id', ParseIntPipe) id: number) {
+        return this.forumsService.getThread(id);
     }
 
     @UseGuards(JwtAuthGuard)
     @Post('threads/:id/posts')
-    createPost(@Request() req: any, @Param('id') id: string, @Body() body: any) {
+    createPost(@Request() req: any, @Param('id', ParseIntPipe) id: number, @Body() body: CreatePostDto) {
         return this.forumsService.createPost({
             content: body.content,
-            threadId: +id,
+            threadId: id,
             authorId: req.user.userId
         });
     }

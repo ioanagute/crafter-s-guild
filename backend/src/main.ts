@@ -1,13 +1,25 @@
 import * as dotenv from 'dotenv';
+import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 
-process.env.DATABASE_URL = "file:C:\\Users\\Inna\\Desktop\\guid-forum-market-platform-1\\backend\\dev.db";
+dotenv.config();
 
 async function bootstrap() {
-  dotenv.config(); // Force .env to load before anything else
   const app = await NestFactory.create(AppModule);
-  app.enableCors(); // Enable CORS for frontend integration
+
+  app.useGlobalPipes(
+    new ValidationPipe({
+      whitelist: true,
+      transform: true,
+      forbidNonWhitelisted: true,
+    }),
+  );
+
+  const corsOrigin = process.env.CORS_ORIGIN;
+  app.enableCors(corsOrigin ? { origin: corsOrigin } : undefined);
+
   await app.listen(process.env.PORT ?? 3000);
 }
-bootstrap();
+
+void bootstrap();

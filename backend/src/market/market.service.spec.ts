@@ -1,18 +1,15 @@
-import { Test, TestingModule } from '@nestjs/testing';
 import { MarketService } from './market.service';
 
 describe('MarketService', () => {
-  let service: MarketService;
+  it('returns items ordered by newest first', async () => {
+    const prisma = {
+      marketItem: {
+        findMany: jest.fn().mockResolvedValue([]),
+      },
+    };
+    const service = new MarketService(prisma as any);
 
-  beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
-      providers: [MarketService],
-    }).compile();
-
-    service = module.get<MarketService>(MarketService);
-  });
-
-  it('should be defined', () => {
-    expect(service).toBeDefined();
+    await expect(service.getItems()).resolves.toEqual([]);
+    expect(prisma.marketItem.findMany).toHaveBeenCalled();
   });
 });

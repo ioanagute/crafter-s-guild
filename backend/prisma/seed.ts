@@ -1,113 +1,157 @@
+import 'dotenv/config';
+import * as bcrypt from 'bcrypt';
 import { PrismaClient } from '@prisma/client';
 import { PrismaBetterSqlite3 } from '@prisma/adapter-better-sqlite3';
 
-import * as bcrypt from 'bcrypt';
-
 const adapter = new PrismaBetterSqlite3({
-    url: "C:\\Users\\Inna\\Desktop\\guid-forum-market-platform-1\\backend\\dev.db",
+  url: process.env.DATABASE_URL ?? 'file:./dev.db',
 });
 const prisma = new PrismaClient({ adapter });
 
+async function upsertMarketItem(sellerId: number, title: string, description: string, price: number) {
+  const existing = await prisma.marketItem.findFirst({
+    where: { sellerId, title },
+  });
+
+  if (existing) {
+    return prisma.marketItem.update({
+      where: { id: existing.id },
+      data: { description, price },
+    });
+  }
+
+  return prisma.marketItem.create({
+    data: { sellerId, title, description, price },
+  });
+}
+
+async function upsertEvent(title: string, description: string, date: Date, location: string) {
+  const existing = await prisma.event.findFirst({
+    where: { title, location },
+  });
+
+  if (existing) {
+    return prisma.event.update({
+      where: { id: existing.id },
+      data: { description, date },
+    });
+  }
+
+  return prisma.event.create({
+    data: { title, description, date, location },
+  });
+}
+
+async function upsertThread(authorId: number, categoryId: number, title: string, content: string) {
+  const existing = await prisma.thread.findFirst({
+    where: { authorId, categoryId, title },
+  });
+
+  if (existing) {
+    return prisma.thread.update({
+      where: { id: existing.id },
+      data: { content },
+    });
+  }
+
+  return prisma.thread.create({
+    data: { authorId, categoryId, title, content },
+  });
+}
+
 async function main() {
-    const hashedPassword = await bcrypt.hash('password123', 10);
-    console.log('Cleaning up database...');
-    await prisma.post.deleteMany();
-    await prisma.thread.deleteMany();
-    await prisma.marketItem.deleteMany();
-    await prisma.event.deleteMany();
-    // We keep Categories and Users and upsert them
-    const categories = [
-        { name: 'Candle Making', description: 'Black flames, carved pillars, scented shadows. Master the art of wax and wick.', icon: '🕯️' },
-        { name: 'Embroidery & Sewing', description: 'From mourning samplers to darkly elegant garments. Thread, needle, and patience.', icon: '🧵' },
-        { name: 'Leatherwork', description: 'Tooled journals, belts, and armor. The scent of leather and the press of the stamp.', icon: '🔨' },
-        { name: 'Woodcarving', description: 'Gargoyles, rune boxes, walking staves. Shape the grain into something haunting.', icon: '🪵' },
-        { name: 'Jewelry & Metalwork', description: 'Silver serpents, obsidian pendants, wire-wrapped talismans. Forge your darkness in metal.', icon: '💎' },
-        { name: 'Knitting & Crochet', description: 'Skull motifs, black lace shawls, and hooded cloaks. Yarn twisted into dark elegance.', icon: '🧶' },
-        { name: 'Bookbinding', description: 'Grimoires, leather journals, and gilded pages. Bind your knowledge in proper form.', icon: '📚' },
-        { name: 'Painting & Illustration', description: 'Dark oil paintings, tarot illustrations, and macabre portraits. Canvas and pigment.', icon: '🎨' },
-        { name: 'Potions & Apothecary', description: 'Herbal salves, ink recipes, natural dyes. The craft of concoction and preservation.', icon: '🧪' },
-        { name: 'Pottery & Ceramics', description: 'Goblets, incense holders, and gargoyle figurines. Earth shaped by fire and intention.', icon: '🏺' },
-        { name: 'Paper Craft & Calligraphy', description: 'Gothic lettering, wax seals, and paper sculptures. The elegance of parchment.', icon: '✂️' },
-        { name: 'Blacksmithing', description: 'Forged blades, iron candelabras, and wrought gates. The anvil sings at midnight.', icon: '🗡️' },
-    ];
+  const hashedPassword = await bcrypt.hash('password123', 10);
 
-    console.log('Seeding categories...');
-    for (const cat of categories) {
-        await prisma.category.upsert({
-            where: { name: cat.name },
-            update: {},
-            create: cat,
-        });
-    }
+  const categories = [
+    { name: 'Candle Making', description: 'Wax, scent, and casting techniques for decorative candles.', icon: 'CM' },
+    { name: 'Embroidery and Sewing', description: 'Fabric work, stitching patterns, and garment construction.', icon: 'ES' },
+    { name: 'Leatherwork', description: 'Tooling, finishing, and care for leather goods.', icon: 'LW' },
+    { name: 'Woodcarving', description: 'Hand carving, finishing, and carving tool advice.', icon: 'WC' },
+    { name: 'Jewelry and Metalwork', description: 'Small metalsmithing, jewelry assembly, and finishing.', icon: 'JM' },
+    { name: 'Knitting and Crochet', description: 'Patterns, yarn selection, and textile tips.', icon: 'KC' },
+    { name: 'Bookbinding', description: 'Binding methods, materials, and restoration notes.', icon: 'BB' },
+    { name: 'Painting and Illustration', description: 'Paint media, drafting, and illustration techniques.', icon: 'PI' },
+    { name: 'Potions and Apothecary', description: 'Soap, dye, and herbal craft discussions.', icon: 'PA' },
+    { name: 'Pottery and Ceramics', description: 'Clay bodies, glazing, kiln cycles, and shaping.', icon: 'PC' },
+    { name: 'Paper Craft and Calligraphy', description: 'Paper work, lettering, seals, and presentation.', icon: 'PP' },
+    { name: 'Blacksmithing', description: 'Forging, heat control, and shop practice.', icon: 'BS' },
+  ];
 
-    console.log('Seeding artisan...');
-    const artisan = await prisma.user.upsert({
-        where: { email: 'artisan@crafters.guild' },
-        update: {
-            password: hashedPassword,
-            username: 'NightWeaver',
-            avatar: '🦇',
-            signature: 'Master of the Flame',
-            role: 'CREATOR',
-        },
-        create: {
-            email: 'artisan@crafters.guild',
-            username: 'NightWeaver',
-            password: hashedPassword,
-            role: 'CREATOR',
-            avatar: '🦇',
-            signature: 'Master of the Flame',
-        },
+  for (const category of categories) {
+    await prisma.category.upsert({
+      where: { name: category.name },
+      update: {
+        description: category.description,
+        icon: category.icon,
+      },
+      create: category,
+    });
+  }
+
+  const artisan = await prisma.user.upsert({
+    where: { email: 'artisan@crafters.guild' },
+    update: {
+      password: hashedPassword,
+      username: 'NightWeaver',
+      avatar: 'NW',
+      signature: 'Making practical things well.',
+      role: 'CREATOR',
+    },
+    create: {
+      email: 'artisan@crafters.guild',
+      username: 'NightWeaver',
+      password: hashedPassword,
+      role: 'CREATOR',
+      avatar: 'NW',
+      signature: 'Making practical things well.',
+    },
+  });
+
+  await upsertMarketItem(artisan.id, 'Obsidian Flame Set', 'Three hand-poured candles with dark wax and long burn time.', 28);
+  await upsertMarketItem(artisan.id, 'Victorian Mourning Sampler', 'Framed embroidery piece with a gothic floral pattern.', 65);
+  await upsertMarketItem(artisan.id, 'Raven Tooled Journal Cover', 'Leather journal cover sized for an A5 notebook.', 42);
+
+  await upsertEvent(
+    'Monthly Craft Review',
+    'Bring one finished project or work in progress for peer feedback.',
+    new Date(Date.now() + 86400000 * 7),
+    'The Inner Sanctum',
+  );
+
+  const candleCategory = await prisma.category.findUnique({
+    where: { name: 'Candle Making' },
+  });
+
+  if (candleCategory) {
+    const thread = await upsertThread(
+      artisan.id,
+      candleCategory.id,
+      'Black Flame Techniques for Layered Candles',
+      'Share your wax temperatures, dye ratios, and mold release tips for multi-layer candle pours.',
+    );
+
+    const existingPosts = await prisma.post.count({
+      where: { threadId: thread.id },
     });
 
-    console.log('Seeding market items...');
-    const marketItems = [
-        { title: 'Obsidian Flame Set', description: '3 Hand-poured Gothic Candles', price: 28, sellerId: artisan.id },
-        { title: 'Victorian Mourning Sampler', description: 'Framed Original Embroidery', price: 65, sellerId: artisan.id },
-        { title: 'Gothic Raven Tooled Grimoire', description: 'A5 Leather Cover', price: 42, sellerId: artisan.id },
-    ];
-    for (const item of marketItems) {
-        await prisma.marketItem.create({ data: item });
+    if (existingPosts === 0) {
+      await prisma.post.createMany({
+        data: [
+          { content: 'I have had the best results by lowering the pour temperature on the final layer.', threadId: thread.id, authorId: artisan.id },
+          { content: 'A silicone mold helped me stop edge cracking on taller pillars.', threadId: thread.id, authorId: artisan.id },
+        ],
+      });
     }
+  }
 
-    console.log('Seeding events...');
-    await prisma.event.create({
-        data: {
-            title: 'Midnight Crafting Ritual',
-            description: 'Join us under the new moon for a session of wax carving.',
-            date: new Date(Date.now() + 86400000 * 7),
-            location: 'The Inner Sanctum',
-        }
-    });
-
-    console.log('Seeding threads & posts...');
-    const candleCat = await prisma.category.findUnique({ where: { name: 'Candle Making' } });
-    if (candleCat) {
-        const thread = await prisma.thread.create({
-            data: {
-                title: 'Black Flame Techniques — Achieving the Perfect Gothic Candle',
-                content: 'Fellow artisans of the flame...',
-                categoryId: candleCat.id,
-                authorId: artisan.id,
-            }
-        });
-
-        await prisma.post.createMany({
-            data: [
-                { content: 'This is exactly what I\'ve been trying to achieve!', threadId: thread.id, authorId: artisan.id },
-                { content: 'Incredible work, NightWeaver.', threadId: thread.id, authorId: artisan.id },
-            ]
-        });
-    }
-
-    console.log('Seeding complete.');
+  console.log('Seed complete. Demo login: artisan@crafters.guild / password123');
 }
 
 main()
-    .catch((e) => {
-        console.error(e);
-        process.exit(1);
-    })
-    .finally(async () => {
-        await prisma.$disconnect();
-    });
+  .catch((error) => {
+    console.error(error);
+    process.exit(1);
+  })
+  .finally(async () => {
+    await prisma.$disconnect();
+  });

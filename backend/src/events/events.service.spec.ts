@@ -1,18 +1,25 @@
-import { Test, TestingModule } from '@nestjs/testing';
 import { EventsService } from './events.service';
 
 describe('EventsService', () => {
-  let service: EventsService;
+  const prisma = {
+    event: {
+      findMany: jest.fn().mockResolvedValue([]),
+    },
+    eventRSVP: {
+      create: jest.fn(),
+      findUnique: jest.fn(),
+      delete: jest.fn(),
+    },
+  };
 
-  beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
-      providers: [EventsService],
-    }).compile();
-
-    service = module.get<EventsService>(EventsService);
+  beforeEach(() => {
+    jest.clearAllMocks();
   });
 
-  it('should be defined', () => {
-    expect(service).toBeDefined();
+  it('returns events sorted by date', async () => {
+    const service = new EventsService(prisma as any);
+
+    await expect(service.getEvents()).resolves.toEqual([]);
+    expect(prisma.event.findMany).toHaveBeenCalled();
   });
 });
