@@ -19,16 +19,35 @@ export default async function CategoriesPage() {
       </div>
 
       <div className="categories-grid">
-        {categories.map((category) => (
-          <Link key={category.id} href={`/threads?category=${category.id}`} className="card category-card animate-fade-in-up">
-            <span className="category-card__icon">{category.icon || 'Category'}</span>
-            <h3 className="category-card__name">{category.name}</h3>
-            <p className="category-card__desc">{category.description}</p>
-            <div className="category-card__stats">
-              <span>Threads: <span className="category-card__stat-value">{category._count?.threads || 0}</span></span>
-            </div>
-          </Link>
-        ))}
+        {categories.map((category, index) => {
+          // Themed icon mapping
+          const icons: Record<string, string> = {
+            'Candle Making': '🕯️',
+            'Blacksmithing': '⚒️',
+            'Leatherworking': '👞',
+            'Alchemy': '⚗️',
+            'Woodworking': '🪵',
+            'Weaving': '🧵',
+            'Pottery': '🏺',
+          };
+          const icon = icons[category.name] || category.icon || '📜';
+
+          return (
+            <Link 
+              key={category.id} 
+              href={`/threads?category=${category.id}`} 
+              className="card category-card animate-fade-in-up border-glow"
+              style={{ animationDelay: `${index * 0.1}s` }}
+            >
+              <span className="category-card__icon">{icon}</span>
+              <h3 className="category-card__name text-gradient">{category.name}</h3>
+              <p className="category-card__desc">{category.description}</p>
+              <div className="category-card__stats">
+                <span>Threads: <span className="category-card__stat-value">{category._count?.threads || 0}</span></span>
+              </div>
+            </Link>
+          );
+        })}
       </div>
 
       {categories.length === 0 && (

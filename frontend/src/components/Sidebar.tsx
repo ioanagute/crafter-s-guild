@@ -4,17 +4,19 @@ import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
+import { useAuth } from '@/context/AuthContext';
+
 const links = [
   { id: 'home', href: '/', icon: 'H', label: 'Home', section: 'Navigate' },
   { id: 'categories', href: '/categories', icon: 'C', label: 'Categories', section: null },
   { id: 'threads', href: '/threads', icon: 'T', label: 'Threads', section: null },
   { id: 'marketplace', href: '/marketplace', icon: 'M', label: 'Marketplace', section: 'Discover' },
   { id: 'events', href: '/events', icon: 'E', label: 'Events', section: null },
-  { id: 'profile', href: '/profile', icon: 'P', label: 'Profile', section: null },
 ];
 
 export default function Sidebar() {
   const pathname = usePathname();
+  const { user, isLoggedIn, logout } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
   const [clock, setClock] = useState('00:00:00');
 
@@ -34,9 +36,9 @@ export default function Sidebar() {
 
   return (
     <>
-      <aside className={`sidebar ${isOpen ? 'open' : ''}`} id="sidebar">
+      <aside className={`sidebar glass ${isOpen ? 'open' : ''}`} id="sidebar">
         <div className="sidebar__brand">
-          <div className="sidebar__logo">
+          <div className="sidebar__logo text-gradient">
             Crafter&apos;s<br />Guild
             <span>Est. MMXXIV</span>
           </div>
@@ -62,6 +64,25 @@ export default function Sidebar() {
             );
             return acc;
           }, [])}
+
+          {isLoggedIn ? (
+            <div className="sidebar__mobile-only">
+              <div className="sidebar__section-label">Account</div>
+              <Link href="/profile" className="sidebar__link" onClick={() => setIsOpen(false)}>
+                <span className="sidebar__link-icon">P</span> Profile
+              </Link>
+              <button onClick={() => { logout(); setIsOpen(false); }} className="sidebar__link sidebar__link--logout">
+                <span className="sidebar__link-icon">L</span> Logout
+              </button>
+            </div>
+          ) : (
+            <div className="sidebar__account">
+              <div className="sidebar__section-label">Account</div>
+              <Link href="/auth" className="sidebar__link" onClick={() => setIsOpen(false)}>
+                <span className="sidebar__link-icon">In</span> Sign In
+              </Link>
+            </div>
+          )}
         </nav>
         <div className="sidebar__guild-clock" id="guild-clock">{clock}</div>
         <div className="sidebar__footer">

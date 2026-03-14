@@ -32,8 +32,11 @@ export default function UserBar() {
   }, [lastScroll]);
 
   return (
-    <div className={`user-bar ${isHidden ? 'user-bar--hidden' : ''}`}>
+    <div className={`user-bar glass ${isHidden ? 'user-bar--hidden' : ''}`}>
       <div className="user-bar__content">
+        <Link href="/" className="user-bar__mobile-logo text-gradient">
+          Crafter&apos;s Guild
+        </Link>
         {isLoggedIn ? (
           <>
             <div className="user-bar__tabs">
@@ -42,16 +45,12 @@ export default function UserBar() {
               <Link href="/marketplace" className="user-bar__tab">Listings</Link>
               <button onClick={logout} className="user-bar__tab user-bar__tab--logout">Logout</button>
             </div>
-            <div className="user-bar__user">
+            <div className="user-bar__user border-glow">
               <span className="user-bar__username">{user?.username}</span>
               <div className="avatar avatar--sm">{user?.avatar || 'A'}</div>
             </div>
           </>
-        ) : (
-          <Link href="/auth" className="btn btn--primary">
-            <span className="sidebar__link-icon">In</span> Sign In
-          </Link>
-        )}
+        ) : null}
       </div>
     </div>
   );

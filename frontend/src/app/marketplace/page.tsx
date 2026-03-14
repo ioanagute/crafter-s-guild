@@ -30,8 +30,17 @@ export default async function MarketplacePage() {
       </div>
 
       <div className="categories-grid" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))' }}>
-        {items.map((item) => (
-          <div key={item.id} className="card" style={{ padding: '0', display: 'flex', flexDirection: 'column' }}>
+        {items.map((item, index) => (
+          <div 
+            key={item.id} 
+            className="card market-card animate-fade-in-up" 
+            style={{ 
+              padding: '0', 
+              display: 'flex', 
+              flexDirection: 'column',
+              animationDelay: `${index * 0.1}s`
+            }}
+          >
             <div style={{ position: 'relative', height: '200px', width: '100%' }}>
               <Image src={item.image || '/img/hero-banner.png'} alt={item.title} fill style={{ objectFit: 'cover' }} />
               <div style={{ position: 'absolute', bottom: 'var(--space-md)', right: 'var(--space-md)' }}>

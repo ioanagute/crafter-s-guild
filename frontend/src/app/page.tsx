@@ -6,6 +6,8 @@ import { ThreadSummary } from '@/lib/types';
 
 export const dynamic = 'force-dynamic';
 
+import HeroButtons from '@/components/HeroButtons';
+
 async function getLatestThreads() {
   try {
     return await fetchAPI('/forums/latest-threads') as ThreadSummary[];
@@ -29,10 +31,7 @@ export default async function Home() {
             A shared home for makers to trade techniques, post forum threads, and browse marketplace
             listings from across the guild.
           </p>
-          <div style={{ marginTop: 'var(--space-lg)', display: 'flex', gap: 'var(--space-md)', flexWrap: 'wrap' }}>
-            <Link href="/auth" className="btn btn--primary">Join the Guild</Link>
-            <Link href="/threads" className="btn">Browse Threads</Link>
-          </div>
+          <HeroButtons />
         </div>
       </section>
 

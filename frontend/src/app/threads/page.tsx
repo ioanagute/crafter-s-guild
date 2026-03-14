@@ -48,8 +48,13 @@ export default async function ThreadsPage({ searchParams }: { searchParams: Prom
       </div>
 
       <div className="thread-list">
-        {threads.map((thread) => (
-          <Link key={thread.id} href={`/threads/${thread.id}`} className="card thread-item animate-fade-in-up">
+        {threads.map((thread, index) => (
+          <Link 
+            key={thread.id} 
+            href={`/threads/${thread.id}`} 
+            className="card thread-item animate-fade-in-up"
+            style={{ animationDelay: `${index * 0.05}s` }}
+          >
             <div className="thread-item__pin">Thread</div>
             <div className="thread-item__body">
               <h3 className="thread-item__title">{thread.title}</h3>
