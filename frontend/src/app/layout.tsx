@@ -1,11 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import Sidebar from "@/components/Sidebar";
-import UserBar from "@/components/UserBar";
-import ParticleCanvas from "@/components/ParticleCanvas";
-import SearchOverlay from "@/components/SearchOverlay";
-import ScrollObserver from "@/components/ScrollObserver";
-import { AuthProvider } from "@/context/AuthContext";
+import AppShell from "@/components/AppShell";
 
 export const metadata: Metadata = {
   title: "Crafter's Guild | Forged in Darkness",
@@ -20,20 +15,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <AuthProvider>
-          <ScrollObserver />
-          <div className="layout">
-            <Sidebar />
-            <UserBar />
-            <ParticleCanvas />
-            <SearchOverlay />
-            <main className="main">
-              <div className="main__content">
-                {children}
-              </div>
-            </main>
-          </div>
-        </AuthProvider>
+        <AppShell>{children}</AppShell>
       </body>
     </html>
   );

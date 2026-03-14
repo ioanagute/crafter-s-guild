@@ -22,12 +22,10 @@ export default function ThreadReplyForm({ threadId }: { threadId: number }) {
 
   if (!isLoggedIn) {
     return (
-      <div className="card reply-box" style={{ padding: 'var(--space-xl)' }}>
-        <p style={{ color: 'var(--text-muted)', marginBottom: 'var(--space-md)' }}>
-          Sign in to post a reply.
-        </p>
+      <div className="card reply-box panel panel--inset">
+        <p className="reply-box__notice">Enter the guild to add your counsel to this thread.</p>
         <Link href="/auth" className="btn btn--primary">
-          Go to Sign In
+          Enter Guild
         </Link>
       </div>
     );
@@ -53,27 +51,20 @@ export default function ThreadReplyForm({ threadId }: { threadId: number }) {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="card reply-box" style={{ padding: 'var(--space-xl)' }}>
+    <form onSubmit={handleSubmit} className="card reply-box panel panel--inset">
+      <div className="reply-box__header">
+        <span className="reply-box__eyebrow">Guild Reply</span>
+        <h4 className="reply-box__title">Add Counsel to the Record</h4>
+      </div>
       <textarea
         id="replyTextarea"
+        className="form-textarea"
         placeholder="Share your advice or follow-up..."
         value={content}
         onChange={(event) => setContent(event.target.value)}
-        style={{
-          width: '100%',
-          minHeight: '120px',
-          background: 'var(--bg-dark)',
-          border: '1px solid var(--border-subtle)',
-          borderRadius: 'var(--radius-md)',
-          padding: 'var(--space-md)',
-          color: '#fff',
-          fontFamily: 'var(--font-body)',
-          fontSize: '1rem',
-          resize: 'vertical',
-        }}
       />
-      {error && <p style={{ color: 'var(--accent-red-bright)', marginTop: 'var(--space-sm)' }}>{error}</p>}
-      <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: 'var(--space-md)' }}>
+      {error ? <p className="form-error">{error}</p> : null}
+      <div className="reply-box__actions">
         <button className="btn btn--primary" type="submit" disabled={submitting || !content.trim()}>
           {submitting ? 'Posting...' : 'Post Reply'}
         </button>

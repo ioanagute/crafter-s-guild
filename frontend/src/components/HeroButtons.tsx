@@ -8,13 +8,13 @@ export default function HeroButtons() {
   const { isLoggedIn } = useAuth();
 
   return (
-    <div style={{ marginTop: 'var(--space-lg)', display: 'flex', gap: 'var(--space-md)', flexWrap: 'wrap' }}>
+    <div className="cta-row">
       {isLoggedIn ? (
-        <Link href="/marketplace" className="btn btn--primary btn--glow">Go to Marketplace</Link>
+        <Link href="/marketplace" className="btn btn--primary btn--glow">Visit the Bazaar</Link>
       ) : (
         <Link href="/auth" className="btn btn--primary btn--glow">Join the Guild</Link>
       )}
-      <Link href="/threads" className="btn">Browse Threads</Link>
+      <Link href="/threads" className="btn btn--secondary">Enter the Forum</Link>
     </div>
   );
 }
