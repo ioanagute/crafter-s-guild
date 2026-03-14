@@ -1,76 +1,101 @@
-import Image from 'next/image';
-import { fetchAPI } from '@/lib/api';
-import { MarketItemSummary } from '@/lib/types';
+import Image from "next/image";
+import ControlBar from "@/components/ControlBar";
+import EmptyState from "@/components/EmptyState";
+import PageHeader from "@/components/PageHeader";
+import PageHero from "@/components/PageHero";
+import { fetchAPI } from "@/lib/api";
+import { MarketItemSummary } from "@/lib/types";
 
-export const dynamic = 'force-dynamic';
+export const dynamic = "force-dynamic";
 
 async function getItems() {
-  return fetchAPI('/market/items') as Promise<MarketItemSummary[]>;
+  return fetchAPI("/market/items") as Promise<MarketItemSummary[]>;
 }
 
 export default async function MarketplacePage() {
   const items = await getItems();
 
   return (
-    <>
-      <section className="hero" style={{ minHeight: '260px', marginBottom: 'var(--space-2xl)' }}>
-        <Image src="/img/marketplace-banner.png" alt="Marketplace banner" fill className="hero__image" style={{ filter: 'brightness(0.35)' }} />
-        <div className="hero__overlay"></div>
-        <div className="hero__content">
-          <h1 className="hero__title">The Dark Bazaar</h1>
-          <p className="hero__subtitle">Browse listings, compare prices, and discover recent items from guild members.</p>
-        </div>
-      </section>
+    <div className="page-shell">
+      <PageHero
+        title="The Dark Bazaar"
+        subtitle="Browse listings, compare prices, and inspect wares recently entered by guild members."
+        eyebrow="Guild Trade"
+        badge={<span className="hero-kicker">Merchant Seal</span>}
+        compact
+      />
 
-      <div className="section-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', gap: 'var(--space-md)', flexWrap: 'wrap' }}>
-        <div>
-          <h2 className="section-header__title">Curated Listings</h2>
-          <p className="section-header__subtitle">The latest marketplace items from the guild.</p>
-        </div>
-      </div>
+      <PageHeader
+        title="Curated Listings"
+        subtitle="The latest wares available from trusted guild members."
+        eyebrow="Guild Bazaar"
+      />
 
-      <div className="categories-grid" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))' }}>
-        {items.map((item, index) => (
-          <div 
-            key={item.id} 
-            className="card market-card animate-fade-in-up" 
-            style={{ 
-              padding: '0', 
-              display: 'flex', 
-              flexDirection: 'column',
-              animationDelay: `${index * 0.1}s`
-            }}
+      <ControlBar
+        summary={
+          <div className="control-bar__stack">
+            <span className="control-bar__eyebrow">Bazaar Count</span>
+            <strong>{items.length} open listing{items.length === 1 ? "" : "s"}</strong>
+          </div>
+        }
+        filters={
+          <div className="filter-chip-row">
+            <span className="filter-chip filter-chip--active">All Wares</span>
+            <span className="filter-chip">Handmade</span>
+            <span className="filter-chip">Commission</span>
+            <span className="filter-chip">Recent</span>
+          </div>
+        }
+      />
+
+      <div className="marketplace-grid">
+        {items.map((item, index) => {
+          const displayImage = Boolean(item.image && !item.image.startsWith('/img/'));
+
+          return (
+          <div
+            key={item.id}
+            className="card market-card animate-fade-in-up"
+            style={{ animationDelay: `${index * 0.1}s` }}
           >
-            <div style={{ position: 'relative', height: '200px', width: '100%' }}>
-              <Image src={item.image || '/img/hero-banner.png'} alt={item.title} fill style={{ objectFit: 'cover' }} />
-              <div style={{ position: 'absolute', bottom: 'var(--space-md)', right: 'var(--space-md)' }}>
-                <span className="badge badge--gold" style={{ fontSize: '1rem', padding: 'var(--space-xs) var(--space-md)' }}>{item.price} coins</span>
-              </div>
-            </div>
-            <div style={{ padding: 'var(--space-lg)', flex: '1', display: 'flex', flexDirection: 'column' }}>
-              <h3 style={{ color: 'var(--accent-gold)', marginBottom: 'var(--space-xs)', fontSize: '1.2rem' }}>{item.title}</h3>
-              <p style={{ fontSize: '0.9rem', color: 'var(--text-muted)', marginBottom: 'var(--space-lg)', flex: '1' }}>
-                {item.description.substring(0, 100)}...
-              </p>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-sm)' }}>
-                  <div className="avatar avatar--sm" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    {item.seller?.avatar || 'S'}
-                  </div>
-                  <span style={{ fontSize: '0.8rem', color: 'var(--accent-gold-dim)' }}>{item.seller?.username}</span>
+            {displayImage ? (
+              <div className="market-card__img-wrap market-card__hero">
+                <Image src={item.image!} alt={item.title} fill className="market-card__img" />
+                <div className="market-card__price-badge">
+                  <span className="badge badge--gold">{item.price} coins</span>
                 </div>
-                <button className="btn btn--small" disabled>Details Coming Soon</button>
+              </div>
+            ) : null}
+            <div className="market-card__body">
+              {!displayImage ? (
+                <div className="market-card__price-badge market-card__price-badge--inline">
+                  <span className="badge badge--gold">{item.price} coins</span>
+                </div>
+              ) : null}
+              <div className="market-card__category">Guild Listing</div>
+              <h3 className="market-card__title">{item.title}</h3>
+              <p className="market-card__desc">{item.description.substring(0, 100)}...</p>
+              <div className="market-card__footer">
+                <div className="market-card__seller-wrap">
+                  <div className="avatar avatar--sm market-card__avatar">
+                    {item.seller?.avatar || "S"}
+                  </div>
+                  <span className="market-card__seller">{item.seller?.username}</span>
+                </div>
+                <button className="btn btn--small" disabled>Details Soon</button>
               </div>
             </div>
           </div>
-        ))}
+          );
+        })}
       </div>
 
-      {items.length === 0 && (
-        <div className="card" style={{ textAlign: 'center', padding: 'var(--space-3xl)' }}>
-          <p style={{ color: 'var(--text-muted)' }}>No marketplace items are available right now.</p>
-        </div>
-      )}
-    </>
+      {items.length === 0 ? (
+        <EmptyState
+          title="No wares listed"
+          description="No marketplace listings are available right now."
+        />
+      ) : null}
+    </div>
   );
 }
