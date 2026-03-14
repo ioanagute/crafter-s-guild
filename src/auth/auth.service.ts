@@ -36,7 +36,7 @@ export class AuthService {
     async register(data: any) {
         const existingEmail = await this.usersService.findOne(data.email);
         if (existingEmail) {
-            throw new ConflictException('Email already woven into the Loom');
+            throw new ConflictException('Email already woven into the Guild');
         }
 
         const existingUsername = await this.usersService.findOne(data.username);

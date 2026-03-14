@@ -43,7 +43,7 @@ export class UsersController {
         });
 
         if (!user) {
-            throw new NotFoundException('User not found in the Loom');
+            throw new NotFoundException('User not found in the Guild');
         }
 
         return user;
