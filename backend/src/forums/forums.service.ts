@@ -20,15 +20,27 @@ export class ForumsService {
         return this.prisma.category.create({ data });
     }
 
-    async getThreadsByCategory(categoryId: number) {
+    async getThreads(categoryId?: number) {
         return this.prisma.thread.findMany({
-            where: { categoryId },
+            where: categoryId ? { categoryId } : undefined,
             include: {
                 author: { select: { username: true, avatar: true } },
-                _count: { select: { posts: true } }
+                category: { select: { name: true, icon: true } },
+                posts: {
+                    take: 1,
+                    orderBy: { createdAt: 'desc' },
+                    include: {
+                        author: { select: { username: true } },
+                    },
+                },
+                _count: { select: { posts: true } },
             },
-            orderBy: { updatedAt: 'desc' }
+            orderBy: { updatedAt: 'desc' },
         });
+    }
+
+    async getThreadsByCategory(categoryId: number) {
+        return this.getThreads(categoryId);
     }
 
     async createThread(data: Prisma.ThreadUncheckedCreateInput) {
@@ -39,6 +51,7 @@ export class ForumsService {
         return this.prisma.thread.findUnique({
             where: { id },
             include: {
+                category: { select: { name: true, icon: true } },
                 author: { select: { username: true, avatar: true, signature: true, role: true } },
                 posts: {
                     include: {
@@ -66,7 +79,7 @@ export class ForumsService {
             orderBy: { createdAt: 'desc' },
             include: {
                 author: { select: { username: true, avatar: true } },
-                category: { select: { name: true } },
+                category: { select: { name: true, icon: true } },
                 _count: { select: { posts: true } }
             }
         });

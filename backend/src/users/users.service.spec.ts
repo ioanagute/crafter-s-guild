@@ -1,18 +1,22 @@
-import { Test, TestingModule } from '@nestjs/testing';
 import { UsersService } from './users.service';
 
 describe('UsersService', () => {
-  let service: UsersService;
+  it('returns a public profile without private email fields in the select clause', async () => {
+    const prisma = {
+      user: {
+        findUnique: jest.fn().mockResolvedValue(null),
+      },
+    };
+    const service = new UsersService(prisma as any);
 
-  beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
-      providers: [UsersService],
-    }).compile();
+    await service.getPublicProfile(1);
 
-    service = module.get<UsersService>(UsersService);
-  });
-
-  it('should be defined', () => {
-    expect(service).toBeDefined();
+    expect(prisma.user.findUnique).toHaveBeenCalledWith(
+      expect.objectContaining({
+        select: expect.not.objectContaining({
+          email: true,
+        }),
+      }),
+    );
   });
 });

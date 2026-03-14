@@ -1,36 +1,55 @@
 # Crafter's Guild Monorepo
 
-Welcome to the **Crafter's Guild** monorepo. This project contains both the backend services and the frontend application.
+Crafter's Guild is a monorepo with a NestJS API, a Next.js frontend, and a retained static legacy frontend for reference.
 
-## Structure
+## Repository Layout
 
-```
+```text
 /crafter-s-guild
-├── backend/          # NestJS API (Node.js, Prisma, SQLite)
-├── frontend/         # Vanilla HTML/CSS/JS (Migration to React/Next.js planned)
-├── .gitignore        # Root git ignore
-└── README.md         # This file
+|-- backend/          NestJS API, Prisma schema, SQLite database, tests
+|-- frontend/         Next.js application
+|-- frontend-legacy/  Archived static prototype
+`-- README.md
 ```
 
-## Getting Started
+## Local Setup
 
 ### Backend
 
-To start the backend development server:
+1. `cd backend`
+2. `copy .env.example .env`
+3. `npm install`
+4. `npx prisma migrate dev`
+5. `npx prisma db seed`
+6. `npm run start:dev`
 
-```bash
-cd backend
-npm install
-npm run start:dev
-```
-
-The API will be available at `http://localhost:3000`.
+Default backend URL: `http://localhost:3000`
 
 ### Frontend
 
-Currently, the frontend consists of static files. You can open `frontend/index.html` in your browser or use a live server extension.
+1. `cd frontend`
+2. `copy .env.example .env.local`
+3. `npm install`
+4. `npm run dev`
 
-## Migration Plans
+Default frontend URL: `http://localhost:3001`
 
-- [ ] Migrate frontend to React/Next.js
-- [ ] Implement shared types/utilities package if needed
+## Environment Variables
+
+### Backend
+
+- `DATABASE_URL`
+- `JWT_SECRET`
+- `PORT` optional, defaults to `3000`
+- `CORS_ORIGIN` optional, defaults to open CORS
+
+### Frontend
+
+- `NEXT_PUBLIC_API_URL` optional, defaults to `http://localhost:3000`
+
+## Notes
+
+- SQLite remains the default local database.
+- Public registration always creates a `CUSTOMER` account.
+- Category creation and event creation are restricted to admins.
+- `frontend-legacy/` is not part of the active application.

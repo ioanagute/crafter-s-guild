@@ -1,7 +1,8 @@
-import { Injectable, UnauthorizedException, ConflictException } from '@nestjs/common';
+import { ConflictException, Injectable } from '@nestjs/common';
 import { UsersService } from '../users/users.service';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
+import { RegisterDto } from './dto/register.dto';
 
 @Injectable()
 export class AuthService {
@@ -33,15 +34,15 @@ export class AuthService {
         };
     }
 
-    async register(data: any) {
+    async register(data: RegisterDto) {
         const existingEmail = await this.usersService.findOne(data.email);
         if (existingEmail) {
-            throw new ConflictException('Email already woven into the Guild');
+            throw new ConflictException('Email is already in use.');
         }
 
         const existingUsername = await this.usersService.findOne(data.username);
         if (existingUsername) {
-            throw new ConflictException('This name is already claimed by another soul');
+            throw new ConflictException('Username is already in use.');
         }
 
         const hashedPassword = await bcrypt.hash(data.password, 10);
@@ -49,9 +50,13 @@ export class AuthService {
             email: data.email,
             username: data.username,
             password: hashedPassword,
-            role: data.role || 'CUSTOMER'
+            role: 'CUSTOMER'
         });
 
         return this.login(user);
+    }
+
+    async getProfile(userId: number) {
+        return this.usersService.getSessionProfile(userId);
     }
 }
