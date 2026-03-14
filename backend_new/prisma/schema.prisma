@@ -1,0 +1,107 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  password  String
+  username  String   @unique
+  role      String   @default("CUSTOMER") // "CREATOR", "CUSTOMER", "ADMIN"
+  
+  // Profile info
+  avatar    String?
+  signature String?
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  threads       Thread[]
+  posts         Post[]
+  marketItems   MarketItem[]
+  eventRSVPs    EventRSVP[]
+}
+
+model Category {
+  id          Int      @id @default(autoincrement())
+  name        String   @unique
+  description String?
+  icon        String?
+  
+  threads     Thread[]
+}
+
+model Thread {
+  id         Int      @id @default(autoincrement())
+  title      String
+  content    String
+  
+  authorId   Int
+  author     User     @relation(fields: [authorId], references: [id])
+  
+  categoryId Int
+  category   Category @relation(fields: [categoryId], references: [id])
+  
+  posts      Post[]
+  
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+model Post {
+  id        Int      @id @default(autoincrement())
+  content   String
+  
+  authorId  Int
+  author    User     @relation(fields: [authorId], references: [id])
+  
+  threadId  Int
+  thread    Thread   @relation(fields: [threadId], references: [id])
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model MarketItem {
+  id          Int      @id @default(autoincrement())
+  title       String
+  description String
+  price       Float
+  image       String?
+  
+  sellerId    Int
+  seller      User     @relation(fields: [sellerId], references: [id])
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Event {
+  id          Int      @id @default(autoincrement())
+  title       String
+  description String
+  date        DateTime
+  location    String
+  
+  rsvps       EventRSVP[]
+  
+  createdAt   DateTime @default(now())
+}
+
+model EventRSVP {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id])
+  eventId   Int
+  event     Event    @relation(fields: [eventId], references: [id])
+  
+  @@unique([userId, eventId])
+}
