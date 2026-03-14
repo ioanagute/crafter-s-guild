@@ -1,5 +1,5 @@
 /* ============================================================
-   THE OBSIDIAN LOOM — Main JavaScript
+   CRAFTER'S GUILD — Main JavaScript
    ============================================================ */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -146,7 +146,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // ── Console Easter Egg ──
   console.log(
-    '%c⚜️ The Obsidian Loom ⚜️',
+    '%c⚜️ Crafter\'s Guild ⚜️',
     'color: #c9a44a; font-size: 20px; font-family: serif; text-shadow: 0 0 10px rgba(201,164,74,0.5);'
   );
   console.log(

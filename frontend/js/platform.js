@@ -1,5 +1,5 @@
 /* ============================================================
-   THE OBSIDIAN LOOM — Platform 2026 JS
+   CRAFTER'S GUILD — Platform 2026 JS
    ============================================================ */
 
 document.addEventListener('DOMContentLoaded', () => {

@@ -1,5 +1,5 @@
 /* ============================================================
-   THE OBSIDIAN LOOM — Authentication Page JS
+   CRAFTER'S GUILD — Authentication Page JS
    ============================================================ */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -235,7 +235,7 @@ document.addEventListener('DOMContentLoaded', () => {
         localStorage.setItem('isLoggedIn', 'true');
         localStorage.setItem('userEmail', email);
 
-        showToast(`Welcome back to the Loom, ${email.split('@')[0] || email}! ⚜️`, 'success');
+        showToast(`Welcome back to the Guild, ${email.split('@')[0] || email}! ⚜️`, 'success');
 
         // Redirect after short delay
         setTimeout(() => {
@@ -261,10 +261,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Social buttons
     document.getElementById('btn-google-login').addEventListener('click', () => {
-        showToast('Google sign-in coming soon to the Loom! 🔮', 'success');
+        showToast('Google sign-in coming soon to the Guild! 🔮', 'success');
     });
     document.getElementById('btn-discord-login').addEventListener('click', () => {
-        showToast('Discord sign-in coming soon to the Loom! 🔮', 'success');
+        showToast('Discord sign-in coming soon to the Guild! 🔮', 'success');
     });
 
     // ── REGISTER FORM ──
@@ -363,7 +363,7 @@ document.addEventListener('DOMContentLoaded', () => {
             konamiIdx++;
             if (konamiIdx === KONAMI.length) {
                 konamiIdx = 0;
-                showToast('🦇 You have awakened the ancient spirits of the Loom... +100 Mystique', 'success');
+                showToast('🦇 You have awakened the ancient spirits of the Guild... +100 Mystique', 'success');
             }
         } else {
             konamiIdx = 0;

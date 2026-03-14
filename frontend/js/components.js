@@ -1,5 +1,5 @@
 /* ============================================================
-   THE OBSIDIAN LOOM — Web Components (Custom Elements v1)
+   CRAFTER'S GUILD — Web Components (Custom Elements v1)
    Light DOM: all existing CSS rules apply with zero changes.
    Usage:
      <forum-sidebar active="home"></forum-sidebar>
@@ -46,13 +46,13 @@ class ForumSidebar extends HTMLElement {
       <aside class="sidebar" id="sidebar">
         <div class="sidebar__brand">
           <div class="sidebar__logo">
-            The Obsidian<br>Loom
+            Crafter's<br>Guild
             <span>Est. MMXXIV</span>
           </div>
         </div>
         <nav class="sidebar__nav">
           <button class="sidebar__search-btn" id="search-btn">
-            🔍 Search the Loom <span class="kbd">/</span>
+            🔍 Search the Guild <span class="kbd">/</span>
           </button>
           ${navHTML}
         </nav>

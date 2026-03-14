@@ -42,7 +42,7 @@ async function main() {
 
     console.log('Seeding artisan...');
     const artisan = await prisma.user.upsert({
-        where: { email: 'artisan@obsidian.loom' },
+        where: { email: 'artisan@crafters.guild' },
         update: {
             password: hashedPassword,
             username: 'NightWeaver',
@@ -51,7 +51,7 @@ async function main() {
             role: 'CREATOR',
         },
         create: {
-            email: 'artisan@obsidian.loom',
+            email: 'artisan@crafters.guild',
             username: 'NightWeaver',
             password: hashedPassword,
             role: 'CREATOR',
