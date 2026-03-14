@@ -6,7 +6,7 @@ export class AppService {
   constructor(private prisma: PrismaService) { }
 
   getHello(): string {
-    return 'The Obsidian Loom API is weaving...';
+    return 'Crafter\'s Guild API is weaving...';
   }
 
   async getStats() {
