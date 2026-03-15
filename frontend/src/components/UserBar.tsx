@@ -18,12 +18,13 @@ const sectionMap: Array<{ match: RegExp; label: string }> = [
   { match: /^\/auth(\/|$)/, label: 'Guild Entry' },
 ];
 
-export default function UserBar() {
+export default function UserBar({ isSidebarCollapsed = false }: { isSidebarCollapsed?: boolean }) {
   const { user, isLoggedIn, logout } = useAuth();
   const pathname = usePathname();
   const [isHidden, setIsHidden] = useState(false);
   const [lastScroll, setLastScroll] = useState(0);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [searchValue, setSearchValue] = useState('');
   const menuRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
@@ -82,9 +83,12 @@ export default function UserBar() {
     return pathname === item.href || pathname.startsWith(`${item.href}/`);
   });
   const memberStatus = user?.role === 'ADMIN' ? 'Guild Administrator' : 'Guild Member';
+  const openSearch = (query = searchValue) => {
+    window.dispatchEvent(new CustomEvent('guild-search-open', { detail: { query } }));
+  };
 
   return (
-    <div className={`user-bar glass ${isHidden ? 'user-bar--hidden' : ''}`}>
+    <div className={`user-bar glass ${isHidden ? 'user-bar--hidden' : ''} ${isSidebarCollapsed ? 'user-bar--sidebar-collapsed' : ''}`}>
       <div className="user-bar__content">
         <Link href="/" className="user-bar__mobile-logo text-gradient">
           Crafter&apos;s Guild
@@ -95,6 +99,34 @@ export default function UserBar() {
             <RouteBadge tone={currentRoute?.tone || 'home'} label={currentSection} compact />
             <span className="user-bar__section-name">{currentSection}</span>
           </div>
+        </div>
+        <div className="user-bar__search-shell">
+          <label className="user-bar__search" htmlFor="user-bar-search">
+            <span className="user-bar__search-icon" aria-hidden="true">
+              <RouteBadge tone="events" label="Search the archives" compact />
+            </span>
+            <input
+              id="user-bar-search"
+              className="user-bar__search-input"
+              type="search"
+              value={searchValue}
+              autoComplete="off"
+              placeholder="Search threads, halls, wares, and members..."
+              onFocus={() => openSearch()}
+              onChange={(event) => {
+                const nextValue = event.target.value;
+                setSearchValue(nextValue);
+                openSearch(nextValue);
+              }}
+              onKeyDown={(event) => {
+                if (event.key === 'Enter' || event.key === 'ArrowDown') {
+                  event.preventDefault();
+                  openSearch();
+                }
+              }}
+            />
+            <span className="user-bar__search-shortcut" aria-hidden="true">/</span>
+          </label>
         </div>
         <div className="user-bar__utility">
           {isLoggedIn ? (
@@ -121,24 +153,13 @@ export default function UserBar() {
                   </div>
                 </div>
                 <div className="user-menu__divider" />
-                <button
-                  className="user-menu__link"
-                  onClick={() => {
-                    window.dispatchEvent(new Event('guild-search-open'));
-                    setIsMenuOpen(false);
-                  }}
-                  type="button"
-                  role="menuitem"
-                >
-                  Search Archives
-                </button>
                 <Link href={memberRoutes.profile.href} className="user-menu__link" role="menuitem">
                   {memberRoutes.profile.label}
                 </Link>
                 <button
                   onClick={() => {
                     setIsMenuOpen(false);
-                    logout();
+                    void logout();
                   }}
                   className="user-menu__link user-menu__link--logout"
                   type="button"

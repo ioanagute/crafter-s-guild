@@ -1,26 +1,42 @@
 import { Injectable } from '@nestjs/common';
+import { Prisma, User } from '@prisma/client';
 import { PrismaService } from '../prisma/prisma.service';
-import { Prisma } from '@prisma/client';
 
 @Injectable()
 export class UsersService {
     constructor(private prisma: PrismaService) { }
 
     async findOne(emailOrUsername: string) {
-        return this.prisma.user.findFirst({
-            where: {
-                OR: [
-                    { email: emailOrUsername },
-                    { username: emailOrUsername }
-                ]
-            }
-        });
+        const normalized = emailOrUsername.trim();
+        const emailMatch = await this.findByEmail(normalized);
+        if (emailMatch) {
+            return emailMatch;
+        }
+
+        return this.findByUsernameInsensitive(normalized);
     }
 
     async findById(id: number) {
         return this.prisma.user.findUnique({
             where: { id }
         });
+    }
+
+    async findByEmail(email: string) {
+        return this.prisma.user.findUnique({
+            where: { email: email.trim().toLowerCase() },
+        });
+    }
+
+    async findByUsernameInsensitive(username: string) {
+        const loweredUsername = username.trim().toLowerCase();
+        const result = await this.prisma.$queryRaw<User[]>`
+            SELECT * FROM "User"
+            WHERE lower("username") = ${loweredUsername}
+            LIMIT 1
+        `;
+
+        return result[0] ?? null;
     }
 
     async create(data: Prisma.UserCreateInput) {
@@ -116,6 +132,35 @@ export class UsersService {
                         price: true,
                     },
                 },
+            },
+        });
+    }
+
+    async findByVerificationTokenHash(tokenHash: string) {
+        return this.prisma.user.findFirst({
+            where: {
+                emailVerificationTokenHash: tokenHash,
+            },
+        });
+    }
+
+    async updateVerification(userId: number, tokenHash: string | null, expiresAt: Date | null) {
+        return this.prisma.user.update({
+            where: { id: userId },
+            data: {
+                emailVerificationTokenHash: tokenHash,
+                emailVerificationExpiresAt: expiresAt,
+            },
+        });
+    }
+
+    async markEmailVerified(userId: number) {
+        return this.prisma.user.update({
+            where: { id: userId },
+            data: {
+                emailVerifiedAt: new Date(),
+                emailVerificationTokenHash: null,
+                emailVerificationExpiresAt: null,
             },
         });
     }

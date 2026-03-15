@@ -36,7 +36,14 @@ const SearchOverlay = () => {
   }, []);
 
   useEffect(() => {
-    const handleOpen = () => setIsOpen(true);
+    const handleOpen = (event: Event) => {
+      const nextQuery =
+        event instanceof CustomEvent && typeof event.detail?.query === 'string'
+          ? event.detail.query
+          : '';
+      setQuery(nextQuery);
+      setIsOpen(true);
+    };
     window.addEventListener('guild-search-open', handleOpen);
     return () => window.removeEventListener('guild-search-open', handleOpen);
   }, []);

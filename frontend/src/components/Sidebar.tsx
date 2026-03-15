@@ -8,7 +8,12 @@ import RouteBadge from '@/components/ui/RouteBadge';
 import { useAuth } from '@/context/AuthContext';
 import { memberRoutes, primaryRoutes } from '@/lib/navigation';
 
-export default function Sidebar() {
+type SidebarProps = {
+  isCollapsed: boolean;
+  onCollapseChange: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
+export default function Sidebar({ isCollapsed, onCollapseChange }: SidebarProps) {
   const pathname = usePathname();
   const { isLoggedIn, logout } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
@@ -28,11 +33,6 @@ export default function Sidebar() {
     return () => clearInterval(interval);
   }, []);
 
-  const openSearch = () => {
-    window.dispatchEvent(new Event('guild-search-open'));
-    setIsOpen(false);
-  };
-
   const isLinkActive = (href: string) => {
     if (href === '/') {
       return pathname === '/';
@@ -45,7 +45,10 @@ export default function Sidebar() {
 
   return (
     <>
-      <aside className={`sidebar sidebar--refined glass ${isOpen ? 'open' : ''}`} id="sidebar">
+      <aside
+        className={`sidebar sidebar--refined glass ${isOpen ? 'open' : ''} ${isCollapsed ? 'sidebar--collapsed' : ''}`}
+        id="sidebar"
+      >
         <div className="sidebar__brand">
           <div className="sidebar__crest">
             <RouteBadge tone="home" label="Crafter's Guild crest" />
@@ -56,13 +59,6 @@ export default function Sidebar() {
           </div>
         </div>
         <nav className="sidebar__nav">
-          <button className="sidebar__search-btn" id="search-btn" onClick={openSearch}>
-            <span className="sidebar__search-copy">
-              <span className="sidebar__search-title">Search the Archives</span>
-              <span className="sidebar__search-subtitle">Threads, halls, wares, and members</span>
-            </span>
-            <span className="kbd">/</span>
-          </button>
           {primaryRoutes.reduce((acc: React.ReactNode[], link, index) => {
             if (link.section) {
               acc.push(<div key={`section-${index}`} className="sidebar__section-label">{link.section}</div>);
@@ -100,7 +96,7 @@ export default function Sidebar() {
                   <span className="sidebar__link-desc">Inspect your standing and current records</span>
                 </span>
               </Link>
-              <button onClick={() => { logout(); setIsOpen(false); }} className="sidebar__link sidebar__link--logout">
+              <button onClick={() => { void logout(); setIsOpen(false); }} className="sidebar__link sidebar__link--logout">
                 <span className="sidebar__link-icon">
                   <RouteBadge tone={memberRoutes.leave.tone} label={memberRoutes.leave.label} compact />
                 </span>
@@ -135,8 +131,19 @@ export default function Sidebar() {
       </aside>
 
       <button
+        className="sidebar-collapse-toggle"
+        type="button"
+        aria-label={isCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+        aria-pressed={isCollapsed}
+        onClick={() => onCollapseChange((value) => !value)}
+      >
+        {isCollapsed ? 'Expand' : 'Collapse'}
+      </button>
+
+      <button
         className="hamburger"
         id="hamburger"
+        type="button"
         aria-label="Toggle navigation"
         onClick={() => setIsOpen((value) => !value)}
       >

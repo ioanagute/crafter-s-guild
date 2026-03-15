@@ -1,6 +1,6 @@
 # Crafter's Guild Monorepo
 
-Crafter's Guild is a monorepo with a NestJS API, a Next.js frontend, and a retained static legacy frontend for reference.
+Crafter's Guild is a monorepo with a NestJS API and a Next.js frontend.
 
 ## Repository Layout
 
@@ -8,7 +8,6 @@ Crafter's Guild is a monorepo with a NestJS API, a Next.js frontend, and a retai
 /crafter-s-guild
 |-- backend/          NestJS API, Prisma schema, SQLite database, tests
 |-- frontend/         Next.js application
-|-- frontend-legacy/  Archived static prototype
 `-- README.md
 ```
 
@@ -52,4 +51,4 @@ Default frontend URL: `http://localhost:3001`
 - SQLite remains the default local database.
 - Public registration always creates a `CUSTOMER` account.
 - Category creation and event creation are restricted to admins.
-- `frontend-legacy/` is not part of the active application.
+- `frontend/` is the only maintained application UI.

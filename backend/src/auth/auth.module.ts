@@ -5,6 +5,8 @@ import { UsersModule } from '../users/users.module';
 import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
 import { JwtStrategy } from './jwt.strategy';
+import { EmailService } from './email.service';
+import { getAuthJwtExpiresIn, parseDurationToSeconds } from './auth.utils';
 
 @Module({
   imports: [
@@ -13,11 +15,11 @@ import { JwtStrategy } from './jwt.strategy';
     JwtModule.registerAsync({
       useFactory: () => ({
         secret: process.env.JWT_SECRET,
-        signOptions: { expiresIn: '60m' },
+        signOptions: { expiresIn: parseDurationToSeconds(getAuthJwtExpiresIn()) },
       }),
     }),
   ],
-  providers: [AuthService, JwtStrategy],
+  providers: [AuthService, JwtStrategy, EmailService],
   controllers: [AuthController],
   exports: [AuthService]
 })
