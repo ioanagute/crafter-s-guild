@@ -1,55 +1,104 @@
-# Crafter's Guild Monorepo
+# ⚒️ Crafter's Guild
 
-Crafter's Guild is a monorepo with a NestJS API, a Next.js frontend, and a retained static legacy frontend for reference.
+Welcome to the **Crafter's Guild** monorepo. This project is a complete web application featuring a robust **NestJS** backend and a modern **Next.js** frontend.
 
-## Repository Layout
+## 📂 Project Structure
 
-```text
-/crafter-s-guild
-|-- backend/          NestJS API, Prisma schema, SQLite database, tests
-|-- frontend/         Next.js application
-|-- frontend-legacy/  Archived static prototype
-`-- README.md
-```
+- **`backend/`**: NestJS REST API with Prisma ORM, SQLite database, and comprehensive automated tests.
+- **`frontend/`**: Next.js application providing a dynamic and responsive user interface.
+- **`frontend-legacy/`**: An archived static prototype kept for reference (non-active).
 
-## Local Setup
+---
 
-### Backend
+## 🚀 Quick Start
 
-1. `cd backend`
-2. `copy .env.example .env`
-3. `npm install`
-4. `npx prisma migrate dev`
-5. `npx prisma db seed`
-6. `npm run start:dev`
+To get the entire application running locally, follow these steps for both components.
 
-Default backend URL: `http://localhost:3000`
+### 1. Prerequisites
+- [Node.js](https://nodejs.org/) (v16+ recommended)
+- [npm](https://www.npmjs.com/) or [yarn](https://yarnpkg.com/)
 
-### Frontend
+---
 
-1. `cd frontend`
-2. `copy .env.example .env.local`
-3. `npm install`
-4. `npm run dev`
+### 2. Backend Setup
+1. **Navigate to backend**:
+   ```bash
+   cd backend
+   ```
+2. **Install dependencies**:
+   ```bash
+   npm install
+   ```
+3. **Environment Setup**:
+   Create a `.env` file from the example:
+   ```bash
+   copy .env.example .env
+   ```
+4. **Database Initialization**:
+   Initialize and seed the SQLite database:
+   ```bash
+   npx prisma migrate dev
+   npx prisma db seed
+   ```
+5. **Start Development Server**:
+   ```bash
+   npm run start:dev
+   ```
+   *The API will be available at: [http://localhost:3000](http://localhost:3000)*
 
-Default frontend URL: `http://localhost:3001`
+---
 
-## Environment Variables
+### 3. Frontend Setup
+1. **Navigate to frontend**:
+   ```bash
+   cd frontend
+   ```
+2. **Install dependencies**:
+   ```bash
+   npm install
+   ```
+3. **Environment Setup**:
+   Create a `.env.local` file from the example:
+   ```bash
+   copy .env.example .env.local
+   ```
+4. **Start Development Server**:
+   ```bash
+   npm run dev
+   ```
+   *The website will be available at: [http://localhost:3001](http://localhost:3001)*
 
-### Backend
+---
 
-- `DATABASE_URL`
-- `JWT_SECRET`
-- `PORT` optional, defaults to `3000`
-- `CORS_ORIGIN` optional, defaults to open CORS
+## 🧪 Testing and Quality
 
-### Frontend
+### Backend Tests
+- **Unit Tests**: `npm run test`
+- **E2E Tests**: `npm run test:e2e`
+- **Linting**: `npm run lint`
 
-- `NEXT_PUBLIC_API_URL` optional, defaults to `http://localhost:3000`
+### Frontend Quality
+- **Type Checking**: `npm run build` (Next.js build process)
+- **Linting**: `npm run lint`
 
-## Notes
+---
 
-- SQLite remains the default local database.
-- Public registration always creates a `CUSTOMER` account.
-- Category creation and event creation are restricted to admins.
-- `frontend-legacy/` is not part of the active application.
+## 🛠️ Tech Stack
+
+| Component | Technology |
+| :--- | :--- |
+| **Backend** | NestJS, Prisma, SQLite, Passport (JWT), Jest |
+| **Frontend** | Next.js, React, TypeScript |
+| **Styling** | CSS Modules / Vanilla CSS |
+
+---
+
+## 📝 Key Features
+- **Monorepo Architecture**: Shared configuration and clear separation of concerns.
+- **SQLite Database**: Lightweight and easy local setup.
+- **Role-Based Access**: Specialized views for Customers and Admins.
+- **Secure Authentication**: JWT-based authentication system.
+
+---
+
+*Happy Crafting!* 🎨🔨
