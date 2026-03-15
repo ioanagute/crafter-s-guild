@@ -1,11 +1,15 @@
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
 
-export async function fetchAPI(endpoint: string, options: RequestInit = {}) {
-  const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
+export class APIError extends Error {
+  constructor(public message: string, public status: number, public code?: string) {
+    super(message);
+    this.name = 'APIError';
+  }
+}
 
+export async function fetchAPI(endpoint: string, options: RequestInit = {}) {
   const headers = {
     'Content-Type': 'application/json',
-    ...(token ? { Authorization: `Bearer ${token}` } : {}),
     ...options.headers,
   };
 
@@ -13,11 +17,12 @@ export async function fetchAPI(endpoint: string, options: RequestInit = {}) {
     ...options,
     headers,
     cache: options.cache ?? 'no-store',
+    credentials: options.credentials ?? 'include',
   });
 
   if (!response.ok) {
     const error = await response.json().catch(() => ({ message: 'An unknown error occurred.' }));
-    throw new Error(error.message || 'API request failed');
+    throw new APIError(error.message || 'API request failed', response.status, error.code);
   }
 
   if (response.status === 204) {

@@ -1,7 +1,7 @@
 'use client';
 
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { fetchAPI } from '@/lib/api';
+import { fetchAPI, APIError } from '@/lib/api';
 
 interface User {
   id: number;
@@ -16,9 +16,10 @@ interface AuthContextType {
   user: User | null;
   isLoggedIn: boolean;
   loading: boolean;
-  login: (credentials: { username: string; password: string }) => Promise<void>;
-  register: (details: { username: string; email: string; password: string }) => Promise<void>;
-  logout: () => void;
+  login: (credentials: { identifier: string; password: string }) => Promise<void>;
+  register: (details: { username: string; email: string; password: string }) => Promise<{ message: string; requiresEmailVerification: boolean }>;
+  resendVerification: (email: string) => Promise<{ message: string }>;
+  logout: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -29,18 +30,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     const initAuth = async () => {
-      const token = localStorage.getItem('token');
-      if (!token) {
-        setLoading(false);
-        return;
-      }
-
       try {
         const userData = await fetchAPI('/auth/profile');
         setUser(userData);
       } catch (error) {
-        console.error('Failed to fetch profile', error);
-        localStorage.removeItem('token');
+        if (!(error instanceof APIError && error.status === 401)) {
+          console.error('Failed to fetch profile', error);
+        }
         setUser(null);
       } finally {
         setLoading(false);
@@ -50,13 +46,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     void initAuth();
   }, []);
 
-  const login = async (credentials: { username: string; password: string }) => {
+  const login = async (credentials: { identifier: string; password: string }) => {
     const data = await fetchAPI('/auth/login', {
       method: 'POST',
       body: JSON.stringify(credentials),
     });
 
-    localStorage.setItem('token', data.access_token);
     setUser(data.user);
   };
 
@@ -66,18 +61,26 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       body: JSON.stringify(details),
     });
 
-    localStorage.setItem('token', data.access_token);
-    setUser(data.user);
+    return data;
   };
 
-  const logout = () => {
-    localStorage.removeItem('token');
+  const resendVerification = async (email: string) => {
+    return fetchAPI('/auth/resend-verification', {
+      method: 'POST',
+      body: JSON.stringify({ email }),
+    });
+  };
+
+  const logout = async () => {
+    await fetchAPI('/auth/logout', {
+      method: 'POST',
+    });
     setUser(null);
     window.location.href = '/';
   };
 
   return (
-    <AuthContext.Provider value={{ user, isLoggedIn: !!user, loading, login, register, logout }}>
+    <AuthContext.Provider value={{ user, isLoggedIn: !!user, loading, login, register, resendVerification, logout }}>
       {children}
     </AuthContext.Provider>
   );

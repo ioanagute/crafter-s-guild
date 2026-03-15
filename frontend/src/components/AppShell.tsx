@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 
 import Sidebar from '@/components/Sidebar';
 import UserBar from '@/components/UserBar';
@@ -10,12 +10,17 @@ import ScrollObserver from '@/components/ScrollObserver';
 import { AuthProvider } from '@/context/AuthContext';
 
 export default function AppShell({ children }: { children: React.ReactNode }) {
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
+
   return (
     <AuthProvider>
       <ScrollObserver />
-      <div className="layout">
-        <Sidebar />
-        <UserBar />
+      <div className={`layout ${isSidebarCollapsed ? 'layout--sidebar-collapsed' : ''}`}>
+        <Sidebar
+          isCollapsed={isSidebarCollapsed}
+          onCollapseChange={setIsSidebarCollapsed}
+        />
+        <UserBar isSidebarCollapsed={isSidebarCollapsed} />
         <ParticleCanvas />
         <SearchOverlay />
         <main className="main">
